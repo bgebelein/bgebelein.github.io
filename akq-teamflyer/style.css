@@ -51,13 +51,27 @@ header{
   stroke: #1e87f0;
 }
 
+/* -------------------- Main -------------------- */
+
+main{
+  margin-bottom: 8rem;
+}
+
 /* -------------------- Footer -------------------- */
 
 #add-team-member{
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  border-radius: 10rem;
+  text-transform: uppercase;
+}
+
+#add-team-member:hover{
+  text-decoration: none;
 }
 
 #add-team-member svg{
