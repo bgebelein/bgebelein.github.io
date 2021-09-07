@@ -1,0 +1,146 @@
+<!doctype html>
+<html class="uk-background-muted">
+
+<head>
+  <meta charset="UTF-8">
+  <title>akquinet engineering Team</title>
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Headline + Add Teammember Button -->
+
+  <header uk-sticky="sel-target: header; cls-active: header--sticky">
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+      <!-- Left side navabr items -->
+      <div class="uk-navbar-left uk-flex uk-flex-middle">
+        <ul class="uk-navbar-nav uk-flex-middle">
+          <li id="logo" class="uk-padding-small"><i data-feather="users"></i></li>
+          <!-- New Canvas / Load Canvas -->
+          <li onclick="toggleJSONDialog()"><a>JSON Importieren</a></li>
+          <li onclick="saveTeamAsJSON()"><a>JSON Speichern</a></li>
+          <li onclick="createPDF()"><a>PDF Exportieren</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Team Grid -->
+
+  <main class="uk-margin-bottom uk-margin-top">
+    <div class="uk-container">
+
+      <!-- Teammember List -->
+      <ul id="team-member-list" class="uk-grid-small uk-child-width-1-5 uk-grid-match" uk-grid>
+      </ul>
+
+      <!-- Teammember Template -->
+      <template id="team-member-list-template">
+        <li class="team-member-list-item">
+          <div class="uk-card uk-card-default uk-padding-small uk-text-center uk-transition-toggle">
+            <img class="team-member-portrait" src="img/portraits/bgebelein.png">
+            <label class="team-member-name uk-width-1-1 uk-padding-small uk-padding-remove-vertical">Max
+              Mustermann</label>
+            <div
+              class="uk-transition-fade uk-position-cover uk-position-small uk-overlay uk-overlay-default uk-flex uk-flex-center uk-flex-middle">
+              <a class="team-member-delete uk-padding-small"><i data-feather="trash-2"></i></a>
+            </div>
+          </div>
+        </li>
+      </template>
+
+    </div>
+  </main>
+
+  <!-- Overlay & Dialogs -->
+
+  <div class="overlay d-none">
+    <!-- Add Teammember Dialog -->
+    <div id="dialog-add" class="uk-card uk-card-default uk-position-center d-none">
+      <div class="uk-card-header uk-flex uk-flex-middle uk-flex-between">
+        <h3 class="uk-card-title uk-margin-remove">Neues Teammitglied anlegen</h3>
+        <a href="" onclick="toggleAddDialog()"><i data-feather="x"></i></a>
+      </div>
+      <div class="uk-card-body">
+        <form>
+          <div class="uk-margin">
+            <label>Name:
+              <input type="text" class="uk-input team-member-name-input" placeholder="z.B. Max Mustermann"
+                pattern="^[A-Z][a-zäöü]+(-[A-Z][a-zäöü]+)*[ ][A-Z][a-zäöü]+(-[A-Z][a-zäöü]+)*$" required>
+            </label>
+          </div>
+
+          <div class="uk-margin">
+            <label uk-form-custom="target: true" class="d-block">Portrait:
+              <input class="team-member-portrait-input" type="file" accept="image/png, image/jpeg" required>
+              <input class="team-member-portrait-input uk-input" type="text" placeholder="Portrait wählen" disabled>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="uk-card-footer uk-text-right">
+        <a class="uk-button uk-button-link uk-text-danger uk-margin-right" onclick="toggleAddDialog()">Abbrechen</a>
+        <input type="submit" value="Mitarbeiter hinzufügen" class="uk-button uk-button-primary" onclick="addMember()">
+      </div>
+    </div>
+
+    <!-- Load JSON Dialog -->
+    <div id="dialog-json" class="uk-card uk-card-default uk-position-center d-none">
+      <div class="uk-card-header uk-flex uk-flex-middle uk-flex-between">
+        <h3 class="uk-card-title uk-margin-remove">JSON importieren</h3>
+        <a href="" onclick="toggleJSONDialog()"><i data-feather="x"></i></a>
+      </div>
+      <div class="uk-card-body">
+        <form>
+          <div class="uk-margin">
+            <label uk-form-custom="target: true" class="d-block">JSON-Datei:
+              <input class="team-json-file-input" type="file" accept="application/json" required>
+              <input class="team-json-input uk-input" type="text" placeholder=".json-Datei wählen" disabled>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="uk-card-footer uk-text-right">
+        <a class="uk-button uk-button-link uk-text-danger uk-margin-right" onclick="toggleJSONDialog()">Abbrechen</a>
+        <input type="submit" value="Mitarbeiter hinzufügen" class="uk-button uk-button-primary"
+          onclick="loadFromJSON()">
+      </div>
+    </div>
+
+    <!-- Creating Dialog -->
+    <div id="dialog-creating" class="uk-card uk-card-default uk-position-center uk-hidden">
+      <div class="uk-card-header uk-flex uk-flex-middle uk-flex-between">
+        <h3 class="uk-card-title uk-margin-remove">PDF generieren</h3>
+      </div>
+      <div class="uk-card-body">
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Action -->
+  <a id="add-team-member" class="uk-padding-small uk-background-primary uk-border-circle" onclick="toggleAddDialog()">
+    <i data-feather="plus-circle"></i>
+  </a>
+
+  <a id="save-json-file" class="uk-hidden" download="teammembers.json"></a>
+
+
+
+  <!-- UI-Kit -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"></script>
+  <!-- Icon Library JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <!-- PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
+  <!-- Custom -->
+  <script src="script.js"></script>
+  <!-- PDF -->
+  <script src="createPDF.js"></script>
+
+</body>
+
+</html>
