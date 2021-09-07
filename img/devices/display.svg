@@ -1,0 +1,17 @@
+<svg id="display" data-name="Display" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 6175 4580">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="79.51" y="79.52" width="6016" height="3384" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="body">
+    <path id="Rechteck_171" data-name="Rechteck 171" d="M2338.51,4571.52h199v4a4,4,0,0,1-4,4h-191a4,4,0,0,1-4-4v-4Z"/>
+    <path id="Rechteck_172" data-name="Rechteck 172" d="M3642.51,4571.52h199v4a4,4,0,0,1-4,4h-191a4,4,0,0,1-4-4v-4Z"/>
+    <rect id="Rechteck_170" data-name="Rechteck 170" x="2316.51" y="4493.52" width="1542" height="78" fill="#ccc"/>
+    <rect id="Rechteck_169" data-name="Rechteck 169" x="2316.51" y="3543.52" width="1542" height="950" fill="#ebebeb"/>
+    <path id="Rechteck_168" data-name="Rechteck 168" d="M43.51-.48h6088a44,44,0,0,1,44,44v3456a44,44,0,0,1-44,44H43.51a44,44,0,0,1-44-44V43.52A44,44,0,0,1,43.51-.48Z"/>
+  </g>
+  <g clip-path="url(#clip-path)">
+    <image width="6016" transform="translate(80 80)" xlink:href="bgebelein-portfolio.png"/>
+  </g>
+</svg>

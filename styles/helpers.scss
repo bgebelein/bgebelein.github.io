@@ -1,0 +1,88 @@
+@import "variables.scss";
+
+/* -------------------- Helpers -------------------- */
+
+.text-akq-lightgreen{
+    color: $akq-lightgreen;
+}
+
+.text-akq-green{
+    color: $akq-green;
+}
+
+.text-akq-darkgreen{
+    color: $akq-darkgreen;
+}
+
+.text-akq-blue{
+    color: $akq-blue;
+}
+
+.text-akq-purple{
+    color: $akq-purple;
+}
+
+.text-akq-red{
+    color: $akq-red;
+}
+
+.text-akq-orange{
+    color: $akq-orange;
+}
+
+.text-akq-yellow{
+    color: $akq-yellow;
+}
+
+.bg-akq-lightgreen{
+    background-color: $akq-lightgreen;
+}
+
+.bg-akq-green{
+    background-color: $akq-green;
+}
+
+.bg-akq-darkgreen{
+    background-color: $akq-darkgreen;
+}
+
+.bg-akq-blue{
+    background-color: $akq-blue;
+}
+
+.bg-akq-purple{
+    background-color: $akq-purple;
+}
+
+.bg-akq-red{
+    background-color: $akq-red;
+}
+
+.bg-akq-orange{
+    background-color: $akq-orange;
+}
+
+.bg-akq-yellow{
+    background-color: $akq-yellow;
+}
+
+.rainbow-border{
+    border: $s solid transparent;
+    border-image: $akq-gradient;
+    border-image-slice: 1;
+}
+
+.button{
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: $xxs $xxs var(--foreground-color);
+
+    &::after{
+        content: "→";
+        width: 2rem;
+        display: inline-block;
+        text-align: center;
+        transform: translateY(-6%);
+    }
+}

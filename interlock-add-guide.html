@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Primary Meta Tags -->
+    <title>Portfolio von Bent Gebelein - Projekt: Interlock Add Guide</title>
+    <meta name="title" content="Portfolio von Bent Gebelein - Projekt: Interlock Add Guide">
+    <meta name="description"
+        content="Portfolio von Bent Gebelein - Projekt: UI/UX-Design und technische Umsetzung der mobile App Interlock Add Guide">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bgebelein.github.io/interlock-add-guide.html">
+    <meta property="og:title" content="Portfolio von Bent Gebelein - Projekt: Interlock Add Guide">
+    <meta property="og:description"
+        content="Portfolio von Bent Gebelein - Projekt: UI/UX-Design und technische Umsetzung der mobile App Interlock Add Guide">
+    <meta property="og:image" content="./img/meta/interlock-add-guide-meta.jpg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bgebelein.github.io/interlock-add-guide.html">
+    <meta property="twitter:title" content="Portfolio von Bent Gebelein - Projekt: Interlock Add Guide">
+    <meta property="twitter:description"
+        content="Portfolio von Bent Gebelein - Projekt: UI/UX-Design und technische Umsetzung der mobile App Interlock Add Guide">
+    <meta property="twitter:image" content="./img/meta/interlock-add-guide-meta.jpg">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#e7324c">
+    <meta name="msapplication-TileColor" content="#e7324c">
+    <meta name="theme-color" content="#e7324c">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Roboto:wght@600&display=swap"
+        rel="stylesheet">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.0/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles/style.min.css">
+</head>
+
+<body data-barba="wrapper">
+    <!-- put here content that will not change between your pages, like <header> -->
+    <header id="page-header">
+        <button href="#main-nav" type="button" aria-label="Menü" title="Menü"
+            uk-toggle="target: #main-nav; animation: uk-animation-fade;"></button>
+
+        <nav id="main-nav" hidden>
+            <a href="index.html#" uk-toggle="target: #main-nav; animation: uk-animation-fade;">Home</a>
+            <a href="index.html#uebermich" uk-toggle="target: #main-nav; animation: uk-animation-fade;">Über
+                mich</a>
+            <a href="index.html#referenzen" uk-toggle="target: #main-nav; animation: uk-animation-fade;">Referenzen</a>
+            <a href="#kontakt" uk-toggle="target: #main-nav; animation: uk-animation-fade;">Kontakt</a>
+        </nav>
+    </header>
+
+    <main id="main" class="rainbow-border" data-barba="container">
+        <!-- put here the content you wish to change between your pages, like your main content <h1> or <p> -->
+
+        <section>
+            <div class="uk-flex-middle uk-flex-between" uk-grid>
+                <div class="uk-width-2-3@m">
+                    <h1>Dräger Interlock Add Guide</h1>
+                    <p>
+                        Der Interlock Add Guide unterstützt interne und externe Techniker bei der Erstellung von
+                        Einbauanleitungen für die Alkotester-Serie (Interlock) von Dräger.
+                    </p>
+                    <p>
+                        Anhand der angegeben Daten werden PDF-Anleitungen generiert und in einer Datenbank zur späteren
+                        Wiederverwendung für Andere bereitgestellt.
+                    </p>
+                </div>
+                <div class="replace-with-svg" data-video="false"
+                    data-screen="./img/screenshots/interlock-add-guide/interlock-add-guide-menu.jpg"
+                    data-device="smartphone">
+                </div>
+            </div>
+        </section>
+
+        <section id="facts" class="rainbow-border">
+            <dl class="uk-child-width-1-4@m uk-child-width-1-2@s uk-child-width-1-1 uk-text-left@s uk-flex-between uk-text-center"
+                uk-grid>
+                <div>
+                    <dt>Vorgehensweise</dt>
+                    <dd>Scrum</dd>
+                </div>
+                <div>
+                    <dt>Projektlaufzeit</dt>
+                    <dd>4 Monate</dd>
+                </div>
+                <div>
+                    <dt>Teamgröße</dt>
+                    <dd>6</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section>
+            <div class="uk-flex-middle uk-flex-between" uk-grid>
+                <div class="uk-width-1-3@m">
+                    <figure uk-sticky="bottom: true">
+                        <div class="replace-with-svg" data-video="true"
+                            data-screen="./vid/interlock-add-guide-onboarding.mp4" data-device="smartphone">
+                        </div>
+                        <figcaption>Onboarding</figcaption>
+                    </figure>
+                </div>
+
+                <div class="uk-width-2-3@m">
+                    <h2>Herausforderung</h2>
+                    <p>Die Interlock Alkotestgeräte von Dräger werden fest in Fahrzeugen verbaut und stellen sicher,
+                        dass der Fahrer unter Alkoholeinfluss ein Fahrzeug nicht starten können. Die Vielzahl
+                        unterschiedlicher Fahrzeugtypen, Hersteller und Modelle erschwert allerdings den ordnungsgemäßen
+                        Einbau der Geräte. Bereits von Technikern eigenständig erstellte Anleitungen sind nicht
+                        standartisiert und häufig
+                        unvollständig.</p>
+
+                    <h2>Lösungsansatz</h2>
+                    <p>Die App bietet die Möglichkeit den Einbau genauestens zu dokumentieren. Dabei werden alle
+                        notwendigen Informationen Schritt für Schritt vom Nutzer abgefragt. Schließlich wird eine
+                        einheitliche PDF-Anleitung generiert, die Anderen Technikern in Zukunft den
+                        Einbau erleichtert.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="screen-grid" uk-scrollspy="cls: uk-animation-fade; delay: 80; offset-top: 200">
+            <figure>
+                <div class="replace-with-svg" data-video="false"
+                    data-screen="./img/screenshots/interlock-add-guide/interlock-add-guide-image-editing.jpg"
+                    data-device="smartphone">
+                </div>
+                <figcaption>Bildbearbeitung</figcaption>
+            </figure>
+
+            <figure uk-parallax="y: -80">
+                <div class="replace-with-svg" data-video="false"
+                    data-screen="./img/screenshots/interlock-add-guide/interlock-add-guide-cable-connection.jpg"
+                    data-device="smartphone">
+                </div>
+                <figcaption>Dokumentation</figcaption>
+            </figure>
+
+            <figure uk-parallax="y: -160">
+                <div class="replace-with-svg" data-video="false"
+                    data-screen="./img/screenshots/interlock-add-guide/interlock-add-guide-summary.jpg"
+                    data-device="smartphone">
+                </div>
+                <figcaption>Zusammenfassung</figcaption>
+            </figure>
+        </section>
+
+        <section id="tools" uk-scrollspy="cls: uk-animation-fade; target: li; delay: 50; offset-top: 240">
+            <h2>Verwendete Tools & Technologien</h2>
+            <ul>
+                <li>
+                    <img data-src="img/tools/adobe-photoshop.svg" height="56" width="56" alt="Adobe Photoshop Logo"
+                        title="Adobe Photoshop" uk-img />
+                </li>
+                <li>
+                    <img data-src="img/tools/adobe-experiencedesign.svg" height="56" width="56"
+                        alt="Adobe Experience Design Logo" title="Adobe Experience Design" uk-img />
+                </li>
+                <li>
+                    <img data-src="img/tools/microsoft-office.svg" height="56" alt="Microsoft Office Logo"
+                        title="Microsoft Office" uk-img />
+                </li>
+                <li>
+                    <img data-src="img/tools/html.svg" height="56" alt="HTML 5 Logo" title="HTML 5" uk-img />
+                </li>
+                <li>
+                    <img data-src="img/tools/css.svg" height="56" alt="CSS 3 Logo" title="CSS 3" uk-img />
+                </li>
+                <li>
+                    <img data-src="img/tools/javascript.svg" height="56" alt="JavaScript Logo" title="JavaScript"
+                        uk-img />
+                </li>
+            </ul>
+        </section>
+
+        <section id="work">
+            <h2>Ähnliche Projekte</h2>
+            <div id="projects" class="uk-child-width-1-2@m uk-child-width-1-1 uk-grid-row-large" uk-grid
+                uk-scrollspy="cls: uk-animation-fade; target: .project; delay: 160; offset-top: 240">
+
+                <!-- SSC -->
+                <article class="project">
+                    <header>
+                        <div class="replace-with-svg" data-video="false"
+                            data-screen="./img/screenshots/safety-supplies-and-consumables/safety-supplies-and-consumables-product.jpg"
+                            data-device="smartphone">
+                        </div>
+                    </header>
+                    <h3>Safety Supplies and Consumables</h3>
+                    <p>App um Mechanikern bei der Erstellung von Einbauanleitungen zu unterstützen.</p>
+                    <a class="button" href="klargestalten.html">Zum Projekt</a>
+                </article>
+
+                <!-- News Cloud -->
+                <article class="project">
+                    <header>
+                        <div class="replace-with-svg" data-screen="./img/screenshots/news-cloud/news-cloud-article.jpg"
+                            data-device="smartphone"></div>
+                    </header>
+                    <h3>News Cloud</h3>
+                    <p>App um Mechanikern bei der Erstellung von Einbauanleitungen zu unterstützen.</p>
+                    <a class="button" href="klargestalten.html">Zum Projekt</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="uk-text-center">
+            <h2>Weitere Projekte</h2>
+            <a class="button" href="index.html#referenzen">
+                Weitere Projekte ansehen
+            </a>
+        </section>
+
+    </main>
+
+    <!-- put here content that will not change between your pages, like <footer> -->
+
+    <footer id="kontakt">
+        <h2>Socials & Kontakt</h2>
+        <ul>
+            <li>
+                <a href="https://github.com/bgebelein"><img class="invert-colors" data-src="img/github-logo.svg"
+                        alt="GitHub Logo" title="https://github.com/bgebelein" height="32" width="32" uk-img />
+                    github.com/bgebelein</a>
+            </li>
+            <li>
+                <a href="https://codepen.io/BentG"><img class="invert-colors" data-src="img/codepen-logo.svg"
+                        alt="Codepen Logo" title="https://codepen.io/BentG" height="32" width="32" uk-img />
+                    codepen.io/BentG</a>
+            </li>
+        </ul>
+    </footer>
+
+    <div id="transition-stripes">
+        <div class="bg-akq-lightgreen"></div>
+        <div class="bg-akq-green"></div>
+        <div class="bg-akq-darkgreen"></div>
+        <div class="bg-akq-blue"></div>
+        <div class="bg-akq-purple"></div>
+        <div class="bg-akq-red"></div>
+        <div class="bg-akq-orange"></div>
+        <div class="bg-akq-yellow"></div>
+    </div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <!-- Barba -->
+    <script src="https://unpkg.com/@barba/core"></script>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.0/dist/js/uikit.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
