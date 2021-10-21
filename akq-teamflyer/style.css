@@ -136,16 +136,3 @@ a:hover .feather * {
   background-color: #fff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
-
-/* ------------------------ Darkmode ------------------------ */
-
-@media (prefers-color-scheme: dark) {
-  .uk-background-muted{
-    background-color: #111;
-  }
-
-  .uk-card-default{
-    background-color: #333;
-    color: #ebebeb;
-  }
-}
