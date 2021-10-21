@@ -141,7 +141,7 @@ a:hover .feather * {
 
 @media (prefers-color-scheme: dark) {
   :root{
-    color: #ebebeb;
+    color: #ebebeb !important;
   }
 
   .uk-background-muted{
