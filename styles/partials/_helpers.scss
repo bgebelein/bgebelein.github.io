@@ -1,6 +1,4 @@
-@import "variables.scss";
-
-/* -------------------- Helpers -------------------- */
+/* -------------------- Colors -------------------- */
 
 .text-akq-lightgreen{
     color: $akq-lightgreen;
@@ -72,17 +70,44 @@
     border-image-slice: 1;
 }
 
-.button{
-    text-transform: uppercase;
-    text-decoration: none;
-    font-weight: bold;
-    text-shadow: $xxs $xxs var(--foreground-color);
+/* -------------------- Icons -------------------- */
 
-    &::after{
-        content: "→";
-        width: 2rem;
-        display: inline-block;
-        text-align: center;
-        transform: translateY(-6%);
+svg.iconify{
+    // 24x24
+    height: $l;
+    width: $l;
+    
+    &.size-s{
+        // 16x16
+        height: $m;
+        width: $m;
+    }
+    
+    &.size-l{
+        // 48x48
+        height: $xxl;
+        width: $xxl;
+    }
+}
+
+/* -------------------- Layout -------------------- */
+
+.container{
+    max-width: 1164px;
+    margin: 0 auto;
+}
+
+/* -------------------- UI Components -------------------- */
+
+a[class^="btn"] {
+    display: inline-block;
+    background: $theme;
+    padding: $m;
+    border-radius: $xs;
+    display: flex;
+    align-items: center;
+
+    .iconify{
+        
     }
 }
