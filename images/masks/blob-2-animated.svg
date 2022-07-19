@@ -1,0 +1,25 @@
+<svg id="blob-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+    <style>
+        <![CDATA[#blob-2-g1_tr {animation: blob-2-g1_tr__tr 20000ms linear infinite normal forwards}@keyframes blob-2-g1_tr__tr { 0% {transform: translate(255.804535px,256.24697px) rotate(0deg)} 100% {transform: translate(255.804535px,256.24697px) rotate(360deg)}} #blob-2-path2_to {animation: blob-2-path2_to__to 4000ms linear infinite normal forwards}@keyframes blob-2-path2_to__to { 0% {transform: translate(227.429413px,290.791908px)} 22.222222% {transform: translate(227.429413px,290.791908px)} 88.888889% {transform: translate(270.123688px,60.880954px)} 100% {transform: translate(270.123688px,60.880954px)}} #blob-2-path2_ts {animation: blob-2-path2_ts__ts 4000ms linear infinite normal forwards}@keyframes blob-2-path2_ts__ts { 0% {transform: scale(0,0)} 66.666667% {transform: scale(0,0);animation-timing-function: cubic-bezier(0.165,0.84,0.44,1)} 88.888889% {transform: scale(1,1)} 100% {transform: scale(1,1)}} #blob-2-path2 {animation: blob-2-path2_c_o 4000ms linear infinite normal forwards}@keyframes blob-2-path2_c_o { 0% {opacity: 1} 88.888889% {opacity: 1} 100% {opacity: 0}} #blob-2-path3_to {animation: blob-2-path3_to__to 4000ms linear infinite normal forwards}@keyframes blob-2-path3_to__to { 0% {transform: translate(227.429413px,290.791908px)} 11.111111% {transform: translate(227.429413px,290.791908px)} 77.777778% {transform: translate(468.05806px,309.508354px)} 100% {transform: translate(468.05806px,309.508354px)}} #blob-2-path3_ts {animation: blob-2-path3_ts__ts 4000ms linear infinite normal forwards}@keyframes blob-2-path3_ts__ts { 0% {transform: scale(0,0)} 44.444444% {transform: scale(0,0)} 77.777778% {transform: scale(1,1)} 100% {transform: scale(1,1)}} #blob-2-path3 {animation: blob-2-path3_c_o 4000ms linear infinite normal forwards}@keyframes blob-2-path3_c_o { 0% {opacity: 1} 77.777778% {opacity: 1} 88.888889% {opacity: 0} 100% {opacity: 0}} #blob-2-path4_to {animation: blob-2-path4_to__to 4000ms linear infinite normal forwards}@keyframes blob-2-path4_to__to { 0% {transform: translate(227.429413px,290.791908px)} 33.333333% {transform: translate(227.429413px,290.791908px)} 66.666667% {transform: translate(60.920078px,451.724121px)} 100% {transform: translate(60.920078px,451.724121px)}} #blob-2-path4_ts {animation: blob-2-path4_ts__ts 4000ms linear infinite normal forwards}@keyframes blob-2-path4_ts__ts { 0% {transform: scale(0,0)} 66.666667% {transform: scale(1,1)} 100% {transform: scale(1,1)}} #blob-2-path4 {animation: blob-2-path4_c_o 4000ms linear infinite normal forwards}@keyframes blob-2-path4_c_o { 0% {opacity: 1} 66.666667% {opacity: 1;animation-timing-function: cubic-bezier(0,0,0.025,1)} 77.777778% {opacity: 0} 100% {opacity: 0}}]]>
+    </style>
+    <g id="blob-2-g1_tr" transform="translate(255.804535,256.24697) rotate(0)">
+        <g id="blob-2-g1" transform="scale(0.77767,0.77767) translate(-255.804535,-256.24697)">
+            <path id="blob-2-path1" d="M399,337.4C366.5,568.5,25.1,467.9,54.9,267.5C73.1,188,179.4,104,262,111.7c92.2,15.9,153.9,135.7,137,225.7Z" />
+            <g id="blob-2-path2_to" transform="translate(227.429413,290.791908)">
+                <g id="blob-2-path2_ts" transform="scale(0,0)">
+                    <path id="blob-2-path2" d="M347.6,10.3c69.1,5.2,87.3,94.2,12.2,104.7-29.5,1-65.9-24.6-98.1-27.8-32.1-3.2-60.2,16-84.1,15-53.3-2-64.6-87.1-9.2-95.3c24-2.2,56.5,18.1,88,18.9c31.4.8,61.7-17.8,91.2-15.5Z" transform="translate(-270.123688,-60.880954)" />
+                </g>
+            </g>
+            <g id="blob-2-path3_to" transform="translate(227.429413,290.791908)">
+                <g id="blob-2-path3_ts" transform="scale(0,0)">
+                    <path id="blob-2-path3" d="M492.9,267.7c16.7,21.1,25.9,50.2,13.5,78.1-7.6,15.5-23.8,29.8-40.1,29.9-16.4.2-32.9-13.8-38.9-29.3-6.1-15.5-1.8-32.5-1.9-49.5c0-17.1-4.4-34.1,1.8-43.7c16.3-20.9,53.4-5.1,65.6,14.5Z" transform="translate(-468.05806,-309.508354)" />
+                </g>
+            </g>
+            <g id="blob-2-path4_to" transform="translate(227.429413,290.791908)">
+                <g id="blob-2-path4_ts" transform="scale(0,0)">
+                    <path id="blob-2-path4" d="M65.8,504.8C20.2,503,-21.1,450.6,10.7,409c11.5-12.1,32.7-14.2,47.6-7.7s23.5,21.7,35.2,33.7c11.7,12.1,26.5,20.9,28.7,32.2c2.9,25.7-33.9,42.9-56.4,37.6Z" transform="translate(-60.920078,-451.724121)" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

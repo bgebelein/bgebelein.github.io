@@ -1,0 +1,22 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <style>
+		path{
+			animation-name: rotate;
+			animation-duration: 20s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+			transform-origin: center;
+		}
+
+		@keyframes rotate {
+			0%{
+				transform: rotate(0deg) scale(.9);
+			}
+		
+			100%{
+				transform: rotate(360deg) scale(.9);
+			}
+		}
+	</style>
+    <path d="m433.1 80.5c246 225-149.3 572.7-368.4 371.8-80.5-89-90.3-289.6-13.7-384.7 93.5-100.6 287.3-82.7 382.1 12.9z" />
+</svg>
