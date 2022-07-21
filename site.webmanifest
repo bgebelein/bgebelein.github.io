@@ -1,7 +1,7 @@
 {
     "theme_color" : "#0a0a0a",
     "background_color" : "#0a0a0a",
-    "display" : "fullscreen",
+    "display" : "standalone",
     "start_url" : "bgebelein.github.io",
     "name" : "Bent Gebelein - UI/UX Design",
     "short_name" : "BG UI/UX Design",
