@@ -925,7 +925,7 @@ h3, .h3 {
 }
 
 h4, .h4 {
-  font-size: clamp(1rem, 1rem + 1.5vw, 1.5rem);
+  font-size: clamp(1.25rem, 1rem + 1.5vw, 1.5rem);
   margin-bottom: 1rem;
   text-shadow: none !important;
 }

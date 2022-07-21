@@ -22,7 +22,7 @@
     "shortcuts" : [
         {
           "name": "Persona",
-          "url": "/#persona",
+          "url": "/#persona"
         },
         {
             "name": "Skills",
