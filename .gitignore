@@ -1,0 +1,12 @@
+# macOS Files
+.DS_Store
+
+# git Files
+.keep
+.env
+
+# vapid static build directoy
+dist/
+
+# npm packages
+node_modules

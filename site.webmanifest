@@ -1,6 +1,12 @@
 {
-    "name": "BG UI/UX-Design",
-    "short_name": "BG UI/UX-Design",
+    "theme_color" : "#0a0a0a",
+    "background_color" : "#0a0a0a",
+    "display" : "fullscreen",
+    "start_url" : "bgebelein.github.io",
+    "name" : "Bent Gebelein - UI/UX Design",
+    "short_name" : "BG UI/UX Design",
+    "description" : "Designportfolio von Bent Gebelein. UI-/UX-Designer bei AKQUINET in Hamburg",
+    "lang": "de-DE",
     "icons": [
         {
             "src": "/images/favicon/android-chrome-192x192.png",
@@ -13,8 +19,30 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#0a0a0a",
-    "background_color": "#0a0a0a",
-    "start_url": "bgebelein.github.io",
-    "display": "standalone"
+    "shortcuts" : [
+        {
+          "name": "Persona",
+          "url": "/#persona",
+        },
+        {
+            "name": "Skills",
+            "url": "/#skills"
+        },
+        {
+            "name": "Tools",
+            "url": "/#tools"
+        },
+        {
+          "name": "Projekte",
+          "url": "/#projekte"
+        },
+        {
+          "name": "Privates",
+          "url": "/#privates"
+        },
+        {
+          "name": "Kontakt",
+          "url": "/#kontakt"
+        }
+    ]      
 }
