@@ -7,13 +7,14 @@ let videoWidth = 0;
 let videoHeight = 0;
 
 // Start camera
-function initiateCamera (camera) {
+function initiateCamera () {
     navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
             width: {ideal: 4096},
             height: {ideal: 4096},
-            facingMode: camera
+            facingMode: camera,
+            torch: torch
         }
     })
     .then(function(mediaStream) {
@@ -22,31 +23,6 @@ function initiateCamera (camera) {
         video.onloadedmetadata = function(e) {
             video.play();
         };
-
-        // get the active track of mediastream
-        const track = mediaStream.getVideoTracks()[0];
-
-        // Toggle flash/torch
-        const torchToggle = document.querySelector('#toggle-torch');
-        torchToggle.addEventListener('click', function() {
-            torch === false ? torch = true : torch = false;
-
-            track.applyConstraints({
-                torch: torch
-            });
-            console.log('Torch: ' + (torch ? 'On' : 'Off'));
-        });
-
-        // Switch camera facingmode
-        const cameraSwitch = document.querySelector('#switch-camera');
-        cameraSwitch.addEventListener('click', function() {
-            camera === 'user' ? camera = 'environment' : camera = 'user';
-
-            track.applyConstraints({
-                facingMode: camera
-            });
-            console.log('Facingmode: ' + camera);
-        });
     
         // log actual width & height of the camera video
         let stream_settings = mediaStream.getVideoTracks()[0].getSettings();
@@ -57,7 +33,6 @@ function initiateCamera (camera) {
         // Setup canvas
         canvas.height = parseInt(videoHeight < videoWidth ? videoHeight : videoWidth);
         canvas.width = parseInt(videoHeight < videoWidth ? videoHeight : videoWidth);
-
         console.log('Canvas size: ' + canvas.height + 'x' + canvas.width);
     })
     .catch(function(error) {
@@ -78,6 +53,24 @@ function stopCamera(){
         video.srcObject = null;
     }
 }
+
+// Toggle flash/torch
+const torchToggle = document.querySelector('#toggle-torch');
+torchToggle.addEventListener('click', function() {
+    stopCamera()
+    torch === false ? torch = true : torch = false;
+    console.log('Torch: ' + (torch ? 'On' : 'Off'));
+    initiateCamera();
+});
+
+// Switch camera facingmode
+const cameraSwitch = document.querySelector('#switch-camera');
+cameraSwitch.addEventListener('click', function() {
+    stopCamera()
+    camera === 'user' ? camera = 'environment' : camera = 'user';
+    console.log('Facingmode: ' + camera);
+    initiateCamera();
+});
 
 // Take snapshot
 const snap = document.querySelector('#snap');
