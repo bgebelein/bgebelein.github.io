@@ -1,7 +1,7 @@
 const videoContainer = document.querySelector('#camera');
 const video = document.querySelector('#video-preview');
 const canvas = document.querySelector('canvas');
-let camera = 'environment';
+let camera = 'user';
 let torch = false;
 let videoWidth = 0;
 let videoHeight = 0;
@@ -14,9 +14,7 @@ function initiateCamera () {
             width: {ideal: 4096},
             height: {ideal: 4096},
             facingMode: camera,
-            advanced: [{
-                torch: torch
-            }]
+            torch: torch
         }
     })
     .then(function(mediaStream) {
@@ -28,6 +26,26 @@ function initiateCamera () {
 
         // Get stream track
         let stream = mediaStream.getVideoTracks()[0];
+
+        // Switch camera facingmode
+        const cameraSwitch = document.querySelector('#switch-camera');
+        cameraSwitch.addEventListener('click', function() {
+            camera === 'user' ? camera = 'environment' : camera = 'user';
+            stream.applyConstraints({
+                facingMode: camera
+            });
+            console.log('Facingmode: ' + camera);
+        });
+
+        // Toggle flash/torch
+        const torchToggle = document.querySelector('#toggle-torch');
+        torchToggle.addEventListener('click', function() {
+            torch === false ? torch = true : torch = false;
+            stream.applyConstraints({
+                torch: torch
+            });
+            console.log('Torch: ' + (torch ? 'On' : 'Off'));
+        });
     
         // log actual width & height of the camera video
         console.log('Camera Resolution: ' + stream.getSettings().width + 'x' + stream.getSettings().height);
@@ -56,6 +74,7 @@ function stopCamera(){
     }
 }
 
+/*
 // Toggle flash/torch
 const torchToggle = document.querySelector('#toggle-torch');
 torchToggle.addEventListener('click', function() {
@@ -74,6 +93,7 @@ cameraSwitch.addEventListener('click', function() {
     console.log('Facingmode: ' + camera);
     initiateCamera();
 });
+*/
 
 // Take snapshot
 const snap = document.querySelector('#snap');
