@@ -23,16 +23,16 @@ function initiateCamera () {
         video.onloadedmetadata = function(e) {
             video.play();
         };
+
+        // Get stream track
+        let stream = mediaStream.getVideoTracks()[0];
     
         // log actual width & height of the camera video
-        let stream_settings = mediaStream.getVideoTracks()[0].getSettings();
-        videoWidth = stream_settings.width;
-        videoHeight = stream_settings.height;
-        console.log('Camera Resolution: ' + stream_settings.width + 'x' + stream_settings.height);
+        console.log('Camera Resolution: ' + stream.getSettings().width + 'x' + stream.getSettings().height);
 
         // Setup canvas
-        canvas.height = parseInt(videoHeight < videoWidth ? videoHeight : videoWidth);
-        canvas.width = parseInt(videoHeight < videoWidth ? videoHeight : videoWidth);
+        canvas.height = parseInt(stream.getSettings().height < stream.getSettings().width ? stream.getSettings().height : stream.getSettings().width);
+        canvas.width = canvas.height;
         console.log('Canvas size: ' + canvas.height + 'x' + canvas.width);
     })
     .catch(function(error) {
@@ -57,7 +57,7 @@ function stopCamera(){
 // Toggle flash/torch
 const torchToggle = document.querySelector('#toggle-torch');
 torchToggle.addEventListener('click', function() {
-    stopCamera()
+    stopCamera();
     torch === false ? torch = true : torch = false;
     console.log('Torch: ' + (torch ? 'On' : 'Off'));
     initiateCamera();
@@ -66,7 +66,7 @@ torchToggle.addEventListener('click', function() {
 // Switch camera facingmode
 const cameraSwitch = document.querySelector('#switch-camera');
 cameraSwitch.addEventListener('click', function() {
-    stopCamera()
+    stopCamera();
     camera === 'user' ? camera = 'environment' : camera = 'user';
     console.log('Facingmode: ' + camera);
     initiateCamera();
