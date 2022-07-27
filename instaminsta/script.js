@@ -15,7 +15,7 @@ function initiateCamera (camera = 'user') {
         }
     })
     .then(function(mediaStream) {
-        /* use the stream */
+        // Start stream
         video.srcObject = mediaStream;
         video.onloadedmetadata = function(e) {
             video.play();
@@ -44,6 +44,14 @@ initiateCamera();
 // Switch camera
 const cameraSwitch = document.querySelector('#switch-camera');
 cameraSwitch.addEventListener('click', function() {
+    // Stop stream
+    const tracks = video.srcObject.getTracks();
+    tracks.forEach(function(track) {
+        track.stop();
+    });
+    video.srcObject = null;
+      
+    // Switch facingmode
     switch (camera){
         case 'user':
             initiateCamera('environment');
