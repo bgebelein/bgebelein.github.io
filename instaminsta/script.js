@@ -27,22 +27,14 @@ function initiateCamera () {
         // Get stream track
         let stream = mediaStream.getVideoTracks()[0];
 
-        // Switch camera facingmode
-        const cameraSwitch = document.querySelector('#switch-camera');
-        cameraSwitch.addEventListener('click', function() {
-            camera === 'user' ? camera = 'environment' : camera = 'user';
-            stream.applyConstraints({
-                facingMode: camera
-            });
-            console.log('Facingmode: ' + camera);
-        });
-
         // Toggle flash/torch
         const torchToggle = document.querySelector('#toggle-torch');
         torchToggle.addEventListener('click', function() {
             torch === false ? torch = true : torch = false;
             stream.applyConstraints({
-                torch: torch
+                advanced: [{
+                    torch: torch,
+                }]
             });
             console.log('Torch: ' + (torch ? 'On' : 'Off'));
         });
@@ -83,7 +75,7 @@ torchToggle.addEventListener('click', function() {
     console.log('Torch: ' + (torch ? 'On' : 'Off'));
     initiateCamera();
 });
-
+*/
 
 // Switch camera facingmode
 const cameraSwitch = document.querySelector('#switch-camera');
@@ -93,7 +85,6 @@ cameraSwitch.addEventListener('click', function() {
     console.log('Facingmode: ' + camera);
     initiateCamera();
 });
-*/
 
 // Take snapshot
 const snap = document.querySelector('#snap');
