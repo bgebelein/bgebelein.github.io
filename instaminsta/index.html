@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>InstaMinsta</title>
+<link rel="stylesheet" href="style.min.css">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="mask-icon" href="images/favicon/safari-pinned-tab.svg" color="#000000">
+<meta name="apple-mobile-web-app-title" content="InstaMinsta">
+<meta name="application-name" content="InstaMinsta">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+</head>
+
+<body>
+    <div id="camera">
+        <video id="video-preview">Video stream not available.</video>
+    </div>
+
+    <footer>
+        <div id="camera-buttons">
+            <button id="switch-camera">🔄</button>
+            <button id="snap"></button>
+        </div>
+        
+        <div id="filter-selection">
+            <input id="filter-none" type="radio" name="filter" value="None" checked />
+            <label for="filter-none">No Filter</label>
+        </div>
+    </footer>
+
+<canvas hidden></canvas>
+<a id="photo" download hidden></a>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
