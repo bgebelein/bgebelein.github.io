@@ -6,7 +6,7 @@ let torch = false;
 let videoWidth = 0;
 let videoHeight = 0;
 
-// Start video
+// Start camera
 function initiateCamera (camera) {
     navigator.mediaDevices.getUserMedia({
         audio: false,
@@ -37,6 +37,16 @@ function initiateCamera (camera) {
             });
             console.log('Torch: ' + torch);
         });
+
+        const cameraSwitch = document.querySelector('#switch-camera');
+        cameraSwitch.addEventListener('click', function() {
+            // Switch facingmode
+            camera === 'user' ? camera = 'environment' : camera = 'user';
+            console.log('Facingmode: ' + camera);
+            track.applyConstraints({
+                facingMode: camera
+            });
+        });
     
         // log actual width & height of the camera video
         let stream_settings = mediaStream.getVideoTracks()[0].getSettings();
@@ -58,10 +68,8 @@ function initiateCamera (camera) {
 
 initiateCamera();
 
-// Switch camera
-const cameraSwitch = document.querySelector('#switch-camera');
-cameraSwitch.addEventListener('click', function() {
-    // Stop stream
+// Stop Camera
+function stopCamera(){
     if (video.srcObject) {
         const tracks = video.srcObject.getTracks();
         tracks.forEach(function(track) {
@@ -69,13 +77,23 @@ cameraSwitch.addEventListener('click', function() {
         });
         video.srcObject = null;
     }
+}
+
+// Switch camera
+/*
+const cameraSwitch = document.querySelector('#switch-camera');
+cameraSwitch.addEventListener('click', function() {
+    // Stop stream
+    stopCamera();
     
     // Switch facingmode
     camera === 'user' ? camera = 'environment' : camera = 'user';
     console.log('Facingmode: ' + camera);
 
+    // Restart camera with updated settings/constraints
     initiateCamera(camera);
 });
+*/
 
 // Take snapshot
 const snap = document.querySelector('#snap');
