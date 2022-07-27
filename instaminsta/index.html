@@ -20,17 +20,31 @@
 <body>
     <div id="camera">
         <video id="video-preview">Video stream not available.</video>
+        <div id="grid"></div>
     </div>
 
     <footer>
-        <div id="camera-buttons">
-            <button id="switch-camera">🔄</button>
-            <button id="snap"></button>
-        </div>
-        
         <div id="filter-selection">
-            <input id="filter-none" type="radio" name="filter" value="None" checked />
+            <input id="filter-none" type="radio" name="filter" value="None" checked="checked" />
             <label for="filter-none">No Filter</label>
+        </div>
+
+        <div id="camera-buttons">
+            <button id="switch-camera">
+                <svg id="flip_camera_android-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g id="Bounding_Box">
+                      <rect id="Rechteck_330" data-name="Rechteck 330" width="24" height="24" fill="none"/>
+                    </g>
+                    <g id="Master">
+                      <g id="Gruppe_500" data-name="Gruppe 500" fill="#fff">
+                        <path id="Pfad_6476" data-name="Pfad 6476" d="M9,12a3,3,0,1,0,3-3A3,3,0,0,0,9,12Zm4,0a1,1,0,1,1-1-1A1,1,0,0,1,13,12Z"/>
+                        <path id="Pfad_6477" data-name="Pfad 6477" d="M8,10V8H5.09a7.982,7.982,0,0,1,14.65,2H21.8A10,10,0,0,0,4,6.01V4H2v6Z"/>
+                        <path id="Pfad_6478" data-name="Pfad 6478" d="M16,14v2h2.91A7.982,7.982,0,0,1,4.26,14H2.2A10,10,0,0,0,20,17.99V20h2V14Z"/>
+                      </g>
+                    </g>
+                  </svg>                  
+            </button>
+            <button id="snap"></button>
         </div>
     </footer>
 

@@ -94,9 +94,20 @@ snap.addEventListener('click', function(e){
     const data = canvas.toDataURL('image/jpeg', 0.7);
 
     // save image
+    let timestamp = new Date(Date.now());
+    timestamp = {
+        'year': timestamp.getFullYear(),
+        'month': timestamp.getMonth() + 1,
+        'day': timestamp.getDate(),
+        'hour': timestamp.getHours(),
+        'min': timestamp.getMinutes(),
+        'sec': timestamp.getSeconds()
+    }
+
+    photo.download = 'IMG_' + timestamp.year + '-' + timestamp.month + '-' + timestamp.day + '_' + timestamp.hour + '-' + timestamp.min + '-' + timestamp.sec + '.jpg';
     photo.setAttribute('href', data);
     photo.click();
-    e.preventDefault();
+
 }, false);
 
 // Filters
