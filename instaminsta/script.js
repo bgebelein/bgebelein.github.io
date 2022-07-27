@@ -9,8 +9,8 @@ function initiateCamera (camera = 'user') {
     navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-            width: {ideal: 1920},
-            height: {ideal: 1080},
+            width: {ideal: 4096},
+            height: {ideal: 4096},
             facingMode: camera
         }
     })
