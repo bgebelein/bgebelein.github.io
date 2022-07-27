@@ -23,29 +23,29 @@ function initiateCamera (camera) {
             video.play();
         };
 
-        // get the active track of the stream and apply constraints
+        // get the active track of mediastream
         const track = mediaStream.getVideoTracks()[0];
 
         // Toggle flash/torch
         const torchToggle = document.querySelector('#toggle-torch');
         torchToggle.addEventListener('click', function() {
             torch === false ? torch = true : torch = false;
+
             track.applyConstraints({
-                advanced: [{
-                    torch: torch
-                }]
+                torch: torch
             });
-            console.log('Torch: ' + torch);
+            console.log('Torch: ' + (torch ? 'On' : 'Off'));
         });
 
+        // Switch camera facingmode
         const cameraSwitch = document.querySelector('#switch-camera');
         cameraSwitch.addEventListener('click', function() {
-            // Switch facingmode
             camera === 'user' ? camera = 'environment' : camera = 'user';
-            console.log('Facingmode: ' + camera);
+
             track.applyConstraints({
                 facingMode: camera
             });
+            console.log('Facingmode: ' + camera);
         });
     
         // log actual width & height of the camera video
@@ -78,22 +78,6 @@ function stopCamera(){
         video.srcObject = null;
     }
 }
-
-// Switch camera
-/*
-const cameraSwitch = document.querySelector('#switch-camera');
-cameraSwitch.addEventListener('click', function() {
-    // Stop stream
-    stopCamera();
-    
-    // Switch facingmode
-    camera === 'user' ? camera = 'environment' : camera = 'user';
-    console.log('Facingmode: ' + camera);
-
-    // Restart camera with updated settings/constraints
-    initiateCamera(camera);
-});
-*/
 
 // Take snapshot
 const snap = document.querySelector('#snap');

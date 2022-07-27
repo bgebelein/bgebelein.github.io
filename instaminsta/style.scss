@@ -107,17 +107,19 @@ footer{
     margin: 1.5rem auto;
 
     button{
+      height: 100%;
       background: none;
       border: none;
       font-size: 2rem;
       cursor: pointer;
       outline: none;
+      align-self: stretch;
+      aspect-ratio: 1;
     }
   
     #snap{
       display: block;
       height: 3.5rem;
-      aspect-ratio: 1;
       border: 2px solid #fff;
       border-radius: 500px;
       background-color: #fff;
