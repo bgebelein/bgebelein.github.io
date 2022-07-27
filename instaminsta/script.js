@@ -91,7 +91,7 @@ snap.addEventListener('click', function(e){
     applyOverlay(getComputedStyle(videoContainer, '::after'));
 
     // covert canvas to dataURL
-    const data = canvas.toDataURL('image/jpeg', 1.0);
+    const data = canvas.toDataURL('image/jpeg', 0.7);
 
     // save image
     photo.setAttribute('href', data);
