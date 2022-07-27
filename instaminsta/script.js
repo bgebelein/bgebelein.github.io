@@ -1,7 +1,8 @@
 const videoContainer = document.querySelector('#camera');
 const video = document.querySelector('#video-preview');
 const canvas = document.querySelector('canvas');
-let camera = 'user'; 
+let camera = 'user';
+let torch = false;
 let videoWidth = 0;
 let videoHeight = 0;
 
@@ -21,6 +22,21 @@ function initiateCamera (camera) {
         video.onloadedmetadata = function(e) {
             video.play();
         };
+
+        // get the active track of the stream and apply constraints
+        const track = mediaStream.getVideoTracks()[0];
+
+        // Toggle flash/torch
+        const torchToggle = document.querySelector('#toggle-torch');
+        torchToggle.addEventListener('click', function() {
+            torch === false ? torch = true : torch = false;
+            track.applyConstraints({
+                advanced: [{
+                    torch: torch
+                }]
+            });
+            console.log('Torch: ' + torch);
+        });
     
         // log actual width & height of the camera video
         let stream_settings = mediaStream.getVideoTracks()[0].getSettings();
@@ -52,7 +68,6 @@ cameraSwitch.addEventListener('click', function() {
             track.stop();
         });
         video.srcObject = null;
-        console.log('Videostream stopped');
     }
     
     // Switch facingmode
