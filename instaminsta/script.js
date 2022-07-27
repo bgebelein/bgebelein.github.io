@@ -14,7 +14,9 @@ function initiateCamera () {
             width: {ideal: 4096},
             height: {ideal: 4096},
             facingMode: camera,
-            torch: torch
+            advanced: [{
+                torch: torch,
+            }]
         }
     })
     .then(function(mediaStream) {
@@ -27,6 +29,7 @@ function initiateCamera () {
         // Get stream track
         let stream = mediaStream.getVideoTracks()[0];
 
+        /* 
         // Toggle flash/torch
         const torchToggle = document.querySelector('#toggle-torch');
         torchToggle.addEventListener('click', function() {
@@ -38,6 +41,7 @@ function initiateCamera () {
             });
             console.log('Torch: ' + (torch ? 'On' : 'Off'));
         });
+        */
     
         // log actual width & height of the camera video
         console.log('Camera Resolution: ' + stream.getSettings().width + 'x' + stream.getSettings().height);
@@ -66,7 +70,6 @@ function stopCamera(){
     }
 }
 
-/*
 // Toggle flash/torch
 const torchToggle = document.querySelector('#toggle-torch');
 torchToggle.addEventListener('click', function() {
@@ -75,7 +78,6 @@ torchToggle.addEventListener('click', function() {
     console.log('Torch: ' + (torch ? 'On' : 'Off'));
     initiateCamera();
 });
-*/
 
 // Switch camera facingmode
 const cameraSwitch = document.querySelector('#switch-camera');
