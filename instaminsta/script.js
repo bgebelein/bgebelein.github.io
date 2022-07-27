@@ -1,11 +1,12 @@
 const videoContainer = document.querySelector('#camera');
 const video = document.querySelector('#video-preview');
 const canvas = document.querySelector('canvas');
+let camera = 'user'; 
 let videoWidth = 0;
 let videoHeight = 0;
 
 // Start video
-function initiateCamera (camera = 'user') {
+function initiateCamera (camera) {
     navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
@@ -45,21 +46,20 @@ initiateCamera();
 const cameraSwitch = document.querySelector('#switch-camera');
 cameraSwitch.addEventListener('click', function() {
     // Stop stream
-    const tracks = video.srcObject.getTracks();
-    tracks.forEach(function(track) {
-        track.stop();
-    });
-    video.srcObject = null;
-      
-    // Switch facingmode
-    switch (camera){
-        case 'user':
-            initiateCamera('environment');
-            break;
-        case 'environment':
-            initiateCamera('user');
-            break;
+    if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+        video.srcObject = null;
+        console.log('Videostream stopped');
     }
+    
+    // Switch facingmode
+    camera === 'user' ? camera = 'environment' : camera = 'user';
+    console.log('Facingmode: ' + camera);
+
+    initiateCamera(camera);
 });
 
 // Take snapshot
