@@ -98,23 +98,31 @@ snap.addEventListener('click', function(e){
     let y = 0;
     let scale = Math.max(videoHeight - videoWidth, videoWidth - videoHeight);
     if (videoHeight > videoWidth) {
-        y = scale / -2;
+        y = scale / 2;
     } else {
-        x = scale / -2;
+        x = scale / 2;
     }
 
     // disable image smoothening bcuz it sucks
     ctx.imageSmoothingEnabled = false;
 
     // add video frame to canvas
-    ctx.drawImage(video, x, y, videoWidth, videoHeight);
+    // ctx.drawImage(video, x, y, videoWidth, videoHeight);
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.height = videoHeight;
+    tempCanvas.width = videoWidth;
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.drawImage(video, 0, 0, videoWidth, videoHeight);
+    const data = tempCtx.getImageData(x, y, canvas.width, canvas.height);
+
+    ctx.putImageData(data,0,0);
 
     // apply overlays to canvas
     applyOverlay(getComputedStyle(videoContainer, '::before'));
     applyOverlay(getComputedStyle(videoContainer, '::after'));
 
     // covert canvas to dataURL
-    const data = canvas.toDataURL('image/jpeg', 0.7);
+    const image = canvas.toDataURL('image/jpeg', 0.7);
 
     // save image
     let timestamp = new Date(Date.now());
@@ -128,7 +136,7 @@ snap.addEventListener('click', function(e){
     }
 
     photo.download = 'IMG_' + timestamp.year + '-' + timestamp.month + '-' + timestamp.day + '_' + timestamp.hour + '-' + timestamp.min + '-' + timestamp.sec + '.jpg';
-    photo.setAttribute('href', data);
+    photo.setAttribute('href', image);
     photo.click();
 
 }, false);
