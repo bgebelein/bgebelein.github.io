@@ -107,7 +107,7 @@ snap.addEventListener('click', function(e){
     ctx.imageSmoothingEnabled = false;
 
     // add video frame to canvas
-    ctx.drawImage(video, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(video, -x, -y, videoWidth, videoHeight);
 
     // apply overlays to canvas
     applyOverlay(getComputedStyle(videoContainer, '::before'));
