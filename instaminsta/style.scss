@@ -24,8 +24,7 @@ body{
   position: relative;
   overflow: hidden;
   top: 50vh;
-  transform: translateY(-50%);
-  backface-visibility: visible;
+  transform: scaleX(-1);
     
   #video-preview {
     min-height: 100%;
