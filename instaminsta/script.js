@@ -14,6 +14,9 @@ function initiateCamera () {
             width: {ideal: 4096},
             height: {ideal: 4096},
             facingMode: camera,
+            advanced: [{
+                torch: torch,
+            }]
         }
     })
     .then(function(mediaStream) {
