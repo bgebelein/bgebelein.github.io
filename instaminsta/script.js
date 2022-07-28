@@ -113,7 +113,6 @@ snap.addEventListener('click', function(e){
     applyOverlay(getComputedStyle(videoContainer, '::before'));
     applyOverlay(getComputedStyle(videoContainer, '::after'));
 
-    /*
     // covert canvas to dataURL
     const data = canvas.toDataURL('image/jpeg', 0.7);
 
@@ -131,7 +130,6 @@ snap.addEventListener('click', function(e){
     photo.download = 'IMG_' + timestamp.year + '-' + timestamp.month + '-' + timestamp.day + '_' + timestamp.hour + '-' + timestamp.min + '-' + timestamp.sec + '.jpg';
     photo.setAttribute('href', data);
     photo.click();
-    */
 
 }, false);
 
