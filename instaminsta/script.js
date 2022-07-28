@@ -25,12 +25,14 @@ function initiateCamera () {
 
         // Get stream track
         let stream = mediaStream.getVideoTracks()[0];
+        videoWidth = stream.getSettings().width;
+        videoHeight = stream.getSettings().height;
     
         // log actual width & height of the camera video
-        console.log('Camera Resolution: ' + stream.getSettings().width + 'x' + stream.getSettings().height);
+        console.log('Camera Resolution: ' + videoWidth + 'x' + videoHeight);
 
         // Setup canvas
-        canvas.height = parseInt(stream.getSettings().height < stream.getSettings().width ? stream.getSettings().height : stream.getSettings().width);
+        canvas.height = parseInt(videoHeight < videoWidth ? videoHeight : videoWidth);
         canvas.width = canvas.height;
         console.log('Canvas size: ' + canvas.height + 'x' + canvas.width);
     })
