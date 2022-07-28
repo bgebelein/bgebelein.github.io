@@ -96,7 +96,6 @@ snap.addEventListener('click', function(e){
     // Get scale factor for videoframe to fill square canvas
     let x = 0;
     let y = 0;
-    // Get scale factor for videoframe to fill square canvas
     let scale = Math.max(videoHeight - videoWidth, videoWidth - videoHeight);
     if (videoHeight > videoWidth) {
         y = scale / 2;
