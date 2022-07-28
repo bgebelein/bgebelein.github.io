@@ -98,16 +98,16 @@ snap.addEventListener('click', function(e){
     let y = 0;
     let scale = Math.max(videoHeight - videoWidth, videoWidth - videoHeight);
     if (videoHeight > videoWidth) {
-        y = scale / 2;
+        y = scale / -2;
     } else {
-        x = scale / 2;
+        x = scale / -2;
     }
 
     // disable image smoothening bcuz it sucks
     ctx.imageSmoothingEnabled = false;
 
     // add video frame to canvas
-    ctx.drawImage(video, -x, -y, videoWidth, videoHeight);
+    ctx.drawImage(video, x, y, videoWidth, videoHeight);
 
     // apply overlays to canvas
     applyOverlay(getComputedStyle(videoContainer, '::before'));
