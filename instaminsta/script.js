@@ -98,9 +98,9 @@ snap.addEventListener('click', function(e){
     let y = 0;
     let scale = Math.max(videoHeight - videoWidth, videoWidth - videoHeight);
     if (videoHeight > videoWidth) {
-        y = scale / 2;
+        y = scale / -2;
     } else {
-        x = scale / 2;
+        x = scale / -2;
     }
 
     // disable image smoothening bcuz it sucks
