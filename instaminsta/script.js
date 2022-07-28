@@ -27,6 +27,18 @@ function initiateCamera () {
         let stream = mediaStream.getVideoTracks()[0];
         videoWidth = stream.getSettings().width;
         videoHeight = stream.getSettings().height;
+
+        // Implement torch functionality
+        const torchToggle = document.querySelector('#toggle-torch');
+        torchToggle.addEventListener('click', function() {
+            torch === false ? torch = true : torch = false;
+            stream.applyConstraints({
+                advanced: [{
+                    torch: torch,
+                }]
+            });
+            console.log('Torch: ' + (torch ? 'On' : 'Off'));
+        });
     
         // log actual width & height of the camera video
         console.log('Camera Resolution: ' + videoWidth + 'x' + videoHeight);
