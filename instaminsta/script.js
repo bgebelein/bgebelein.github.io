@@ -91,18 +91,23 @@ snap.addEventListener('click', function(e){
     // apply filter to canvas
     let filter = getComputedStyle(videoContainer).filter;
     ctx.filter = filter;
+
     
     // Get scale factor for videoframe to fill square canvas
-    let x = (canvas.width / 2) - (videoWidth / 2);
-    let y = (canvas.height / 2) - (videoHeight / 2);
+    let x = 0;
+    let y = 0;
+    // Get scale factor for videoframe to fill square canvas
+    let scale = Math.max(videoHeight - videoWidth, videoWidth - videoHeight);
+    if (videoHeight > videoWidth) {
+        y = scale / 2;
+    } else {
+        x = scale / 2;
+    }
 
     // disable image smoothening bcuz it sucks
     ctx.imageSmoothingEnabled = false;
-    /*
-    // add video frame to canvas
-    ctx.drawImage(video, x, y, videoWidth * scale, videoHeight * scale);
-    */
 
+    // add video frame to canvas
     ctx.drawImage(video, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
     // apply overlays to canvas
