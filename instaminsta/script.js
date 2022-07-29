@@ -112,6 +112,12 @@ snap.addEventListener('click', function(e){
     // add video frame to canvas
     ctx.drawImage(video, x, y, videoWidth, videoHeight);
 
+    // apply overlays to canvas
+    /* 
+    applyOverlay(getComputedStyle(videoContainer, '::before'));
+    applyOverlay(getComputedStyle(videoContainer, '::after'));
+    */
+
     // covert canvas to dataURL
     const image = canvas.toDataURL('image/jpeg', 0.7);
 
