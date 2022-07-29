@@ -6,13 +6,17 @@ let torch = false;
 let videoWidth = 0;
 let videoHeight = 0;
 
+// iOS Safari workaround for stretched image
+let is_ios = /iP(ad|od|hone)/i.test(window.navigator.userAgent);
+let is_safari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+
 // Start camera
 function initiateCamera () {
     navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-            width: {ideal: 4096},
-            height: {ideal: 4096},
+            width: {ideal: is_ios && is_safari ? 1024 : 4096},
+            height: {ideal: is_ios && is_safari ? 1024 : 4096},
             facingMode: camera,
             advanced: [{
                 torch: torch,
@@ -91,7 +95,6 @@ snap.addEventListener('click', function(e){
     // apply filter to canvas
     let filter = getComputedStyle(videoContainer).filter;
     ctx.filter = filter;
-
     
     // Get scale factor for videoframe to fill square canvas
     let x = 0;
