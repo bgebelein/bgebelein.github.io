@@ -4,3 +4,6 @@
 # git Files
 .keep
 .env
+
+# NPM packages
+node_modules
