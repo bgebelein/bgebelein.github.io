@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>MyWeather</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#030311">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#05051a">
+    <meta name="theme-color" content="#05051a">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>    
+    <header>
+        <button id="refresh-button" onclick="refreshData()"><img src="/images/icons/refresh.svg" height="24" width="24"></button>
+        <button id="settings-button"><img src="/images/icons/settings.svg" height="24" width="24"></button>
+    </header>
+
+    <main>
+    </main>
+
+    <footer>
+        <p><small>Made with <span class="text-red">♥</span> by Bent Gebelein</small></p>
+        <p><small>powered by <a href="https://openweathermap.org/">openweathermap.org</a></small></p>
+    </footer>
+
+    <!-- SETTINGS DIALOG -->
+
+    <dialog id="settings-dialog">
+        <h2>Settings</h2>
+        <form onsubmit="addLocation(this);return false;">
+            <input id="search" type="text" minlength="2" />
+            <button type="submit"><img src="/images/icons/list-add.svg" height="24" width="24" /></button>
+        </form>
+        
+
+        <ul id="location-list">
+            
+        </ul>
+
+        <button id="close-dialog" onclick="closeDialog(this)"><img src="/images/icons/close.svg" height="24" width="24" alt="Close icon" /></button>
+    </dialog>
+
+    <!-- LOCATION TEMPLATE -->
+
+    <template id="location-template">
+        <li class="card" data-location="" draggable="true" ondragstart="drag(event)"><img src="/images/icons/drag-handle.svg" height="24" width="24" draggable="false" /><span class="location-name" draggable="false"></span><button onclick="deleteLocation(this)" draggable="false"><img src="/images/icons/delete.svg" height="24" width="24" draggable="false" /></button></li>
+    </template>
+
+    <!-- DRAG & DROP TEMPLATE -->
+
+    <template id="drop-template">
+        <li class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)"></li>
+    </template>
+
+    <!-- TOAST TEMPLATE -->
+
+    <template id="toast-template">
+        <div class="toast card">
+            <dl>
+                <dt></dt>
+                <dd></dd>
+            </dl>
+        </div>
+    </template>
+
+    <!-- WEATHER TEMPLATE -->
+
+    <template id="weather-template">
+        <article>
+            <header>
+                <h2 class="weather-location"></h2>
+            </header>
+
+            <!-- CURRENT WEATHER SECTION -->
+
+            <section class="current-weather">
+                <div class="current-temperature" onclick="triggerToast(this)">
+                    <img class="current-weather-icon" alt="Current temperature icon" />
+                    <h2 class="current-temperature-value"></h2>
+                </div>
+
+                <div class="current-weather-data">
+                    <div class="current-sun card">
+                        <div class="current-sunrise" onclick="triggerToast(this)">
+                            <img src="/images/icons/sunrise.svg" height="40" width="40" alt="Sunrise icon" />
+                            <p class="current-sunrise-value"></p>
+                        </div>
+                        <div class="current-sunposition" onclick="triggerToast(this)">
+                            <div class="current-sunposition-progress"></div>
+                            <img class="current-sunposition-indicator" src="/images/icons/sun.svg" height="16" width="16" />
+                        </div>
+                        <div class="current-sunset" onclick="triggerToast(this)">
+                            <img src="/images/icons/sunset.svg" height="40" width="40" alt="Sunset icon" />
+                            <p class="current-sunset-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-wind-direction card">
+                        <div onclick="triggerToast(this)">
+                            <svg id="compass" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="40" width="40">
+                                <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                  <g stroke="#fff">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="m12 3v1" />
+                                    <path d="m12 20v1" />
+                                    <path d="m3 12h1" />
+                                    <path d="m19 12h1" />
+                                  </g>
+                                  <g id="needle" stroke="#e7324c">
+                                    <path d="m14 11h-4"  />
+                                    <path d="m12.5 9.85h-1" />
+                                    <path d="m12 17-2.5-5 2.5-5 2.5 5z" />
+                                  </g>
+                                </g>
+                              </svg>
+                            <p class="current-wind-direction-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-wind-speed card">
+                        <div onclick="triggerToast(this)">
+                            <img src="/images/icons/wind-speed.svg" height="40" width="40" alt="Wind speed icon" />
+                            <p class="current-wind-speed-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-pressure card">
+                        <div onclick="triggerToast(this)">
+                            <img src="/images/icons/pressure.svg" height="40" width="40" alt="Pressure icon" />
+                            <p class="current-pressure-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-humidity card">
+                        <div onclick="triggerToast(this)">
+                            <img src="/images/icons/humidity.svg" height="40" width="40" alt="Humidity icon" />
+                            <p class="current-humidity-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-pop card">
+                        <div onclick="triggerToast(this)">
+                            <img src="/images/icons/pop.svg" height="40" width="40"
+                                alt="Probability of precipitation icon" />
+                            <p class="current-pop-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="current-uv-index card">
+                        <div onclick="triggerToast(this)">
+                            <img src="/images/icons/clear-sky-day.svg" height="40" width="40" alt="UV Index icon" />
+                            <p class="current-uvindex-value"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOURLY WEATHER SECTION -->
+            <section class="hourly-weather">
+                <h2>Today</h2>
+                <ul class="hourly-weather-list">
+                    <li class="hourly-weather-item card" onclick="triggerToast(this)">
+                        <img src="/images/icons/clear-sky-day.svg" height="40" width="40" alt="Hourly weather Icon" />
+                        <h3 class="hourly-temperature"></h3>
+                        <p class="hourly-timestamp"></p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- DAILY WEATHER SECTION -->
+            <section class="daily-weather">
+                <h2>Next 7 days</h2>
+                <ul class="daily-weather-list">
+                    <li class="daily-weather-item card" onclick="triggerToast(this)">
+                        <ul>
+                            <li>
+                                <h3 class="daily-day"></h3>
+                            </li>
+                            <li class="daily-date"></li>
+                        </ul>
+
+                        <div>
+                            <img src="/images/icons/clear-sky-day.svg" height="40" width="40" alt="Daily weather Icon" />
+                            <p class="daily-temperature"></p>
+                            <ul>
+                                <li class="daily-temperature-max"></li>
+                                <li class="daily-temperature-min"></li>
+                            </ul>
+                        </div>
+
+                        <ul>
+                            <li><img src="/images/icons/pop.svg" height="16" width="16" /><span
+                                    class="daily-pop"></span>
+                            </li>
+                            <li><img src="/images/icons/wind-speed.svg" height="16" width="16" /><span
+                                    class="daily-wind"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </article>
+    </template>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
