@@ -24,7 +24,7 @@ if (localStorage.getItem('myWeatherLastUpdate')) {
     localStorage.setItem('myWeatherLastUpdate', lastUpdate);
 }
 
-// Location settings dialog
+/* -------------------- Locations Settings Dialog  -------------------- */
 
 const locationSettingsTemplate = document.querySelector('#settings-location-item');
 const dropTemplate = document.querySelector('#drop-template');
@@ -60,98 +60,7 @@ function createLocationList() {
 
 createLocationList();
 
-// Search & Add dialog
-
-const searchForm = document.querySelector('form#search-form');
-const locationSearchResults = document.querySelector('ul#location-search-reults');
-const locationSearchItem = document.querySelector('template#add-location-item').content.querySelector('li');
-const searchInput = document.querySelector('input#search');
-
-searchForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + searchInput.value + '&limit=5&appid=' + apiKey)
-        .then((response) => response.json())
-        .then((locationData) => {
-            console.log('Searchresults:');
-            console.log(locationData);
-            locationSearchResults.innerHTML = '';
-
-            if (locationData.length === 0) {
-                triggerToast('Error', 'Location not found.', 'error');
-            } else {
-                for (let i = 0; i < locationData.length; i++) {
-                    // Creation of result list
-                    locationSearchItemClone = locationSearchItem.cloneNode(true);
-                    locationSearchItemClone.setAttribute('data-location', locationData[i].name);
-                    locationSearchItemClone.querySelector('dt').innerText = `${locationData[i].name}`;
-                    locationSearchItemClone.querySelector('dd').innerText = locationData[i].state ? `(${locationData[i].country} | ${locationData[i].state})` : `(${locationData[i].country})`;
-                    locationSearchResults.appendChild(locationSearchItemClone);
-
-                    // Adding locations
-                    locationSearchItemClone.addEventListener('click', function () {
-                        if (!locationArr.includes(locationData[i])) {
-                            locationArr.push(locationData[i]);
-                            createLocationList();
-                            triggerToast('Info', 'Location added.', 'info');
-                        } else {
-                            triggerToast('Error', 'Location already exists.', 'error');
-                        }
-                    });
-                }
-            }
-        })
-});
-
-// Open dialog
-
-const dialogButtons = document.querySelectorAll('button[data-dialog-target]');
-const dialogs = document.querySelectorAll('.dialog');
-
-dialogButtons.forEach(button => {
-    button.addEventListener('click', function openDialog(e) {
-        // toggle dialog
-        let dialogTarget = document.getElementById(e.currentTarget.getAttribute('data-dialog-target'));
-        dialogTarget.classList.add('open');
-
-        // prevent backgound scrolling
-        document.querySelector('body').style.overflow = 'hidden';
-
-        // add background blur
-        document.querySelector('header').style.filter = 'blur(8px)';
-        document.querySelector('main').style.filter = 'blur(8px)';
-    });
-});
-
-// Close dialog
-
-function closeDialog(e) {
-    // Close dialog + enable scrolling + remove blur
-    dialogs.forEach(dialog => dialog.classList.remove('open'))
-    document.querySelector('body').style.overflow = 'auto';
-    document.querySelector('header').removeAttribute('style');
-    document.querySelector('main').removeAttribute('style');
-
-    // Save array and rerender weather app only when things changed
-    if (locationArr.length !== JSON.parse(localStorage.getItem('myWeatherLocationArr')).length) {
-        localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
-        document.querySelector('main').innerHTML = '';
-        getData(locationArr, 0);
-    } else {
-        for (let i = 0; i < locationArr.length; i++) {
-            let locationArrItem = JSON.stringify(locationArr[i]);
-            let localStorageArrItem = JSON.stringify(JSON.parse(localStorage.getItem('myWeatherLocationArr'))[i])
-
-            if (locationArrItem !== localStorageArrItem) {
-                localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
-                document.querySelector('main').innerHTML = '';
-                getData(locationArr, 0);
-            }
-        }
-    }
-}
-
-// Handle drag & drop
+/* -------------------- Drag and Drop Loaction Settings  -------------------- */
 
 let dragSrcEl = null;
 let dragSrcLat = 0;
@@ -243,7 +152,96 @@ items.forEach(function(item) {
     item.addEventListener('dragend', handleDragEnd, false);
 });
 
-/* -------------------- API Requests  -------------------- */
+/* -------------------- Search & Add Location Dialog  -------------------- */
+
+const searchForm = document.querySelector('form#search-form');
+const locationSearchResults = document.querySelector('ul#location-search-reults');
+const locationSearchItem = document.querySelector('template#add-location-item').content.querySelector('li');
+const searchInput = document.querySelector('input#search');
+
+searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + searchInput.value + '&limit=5&appid=' + apiKey)
+        .then((response) => response.json())
+        .then((locationData) => {
+            console.log('Searchresults:');
+            console.log(locationData);
+            locationSearchResults.innerHTML = '';
+
+            if (locationData.length === 0) {
+                triggerToast('Error', 'Location not found.', 'error');
+            } else {
+                for (let i = 0; i < locationData.length; i++) {
+                    // Creation of result list
+                    locationSearchItemClone = locationSearchItem.cloneNode(true);
+                    locationSearchItemClone.setAttribute('data-location', locationData[i].name);
+                    locationSearchItemClone.querySelector('dt').innerText = `${locationData[i].name}`;
+                    locationSearchItemClone.querySelector('dd').innerText = locationData[i].state ? `(${locationData[i].country} | ${locationData[i].state})` : `(${locationData[i].country})`;
+                    locationSearchResults.appendChild(locationSearchItemClone);
+
+                    // Adding locations
+                    locationSearchItemClone.addEventListener('click', function () {
+                        if (!locationArr.includes(locationData[i])) {
+                            locationArr.push(locationData[i]);
+                            createLocationList();
+                            triggerToast('Info', 'Location added.', 'info');
+                        } else {
+                            triggerToast('Error', 'Location already exists.', 'error');
+                        }
+                    });
+                }
+            }
+        })
+});
+
+/* -------------------- Open / Close Dialog  -------------------- */
+
+const dialogButtons = document.querySelectorAll('button[data-dialog-target]');
+const dialogs = document.querySelectorAll('.dialog');
+
+dialogButtons.forEach(button => {
+    button.addEventListener('click', function openDialog(e) {
+        // toggle dialog
+        let dialogTarget = document.getElementById(e.currentTarget.getAttribute('data-dialog-target'));
+        dialogTarget.classList.add('open');
+
+        // prevent backgound scrolling
+        document.querySelector('body').style.overflow = 'hidden';
+
+        // add background blur
+        document.querySelector('header').style.filter = 'blur(8px)';
+        document.querySelector('main').style.filter = 'blur(8px)';
+    });
+});
+
+function closeDialog(e) {
+    // Close dialog + enable scrolling + remove blur
+    dialogs.forEach(dialog => dialog.classList.remove('open'))
+    document.querySelector('body').style.overflow = 'auto';
+    document.querySelector('header').removeAttribute('style');
+    document.querySelector('main').removeAttribute('style');
+
+    // Save array and rerender weather app only when things changed
+    if (locationArr.length !== JSON.parse(localStorage.getItem('myWeatherLocationArr')).length) {
+        localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
+        document.querySelector('main').innerHTML = '';
+        getData(locationArr, 0);
+    } else {
+        for (let i = 0; i < locationArr.length; i++) {
+            let locationArrItem = JSON.stringify(locationArr[i]);
+            let localStorageArrItem = JSON.stringify(JSON.parse(localStorage.getItem('myWeatherLocationArr'))[i])
+
+            if (locationArrItem !== localStorageArrItem) {
+                localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
+                document.querySelector('main').innerHTML = '';
+                getData(locationArr, 0);
+            }
+        }
+    }
+}
+
+/* -------------------- Get Weather Data  -------------------- */
 
 let weatherLocationName;
 
@@ -295,13 +293,6 @@ function getData(locationArr, counter) {
 
 getData(locationArr, 0);
 
-function refreshData() {
-    if (lastUpdate < Math.round(new Date().getTime() / 1000 - 3600)) {
-        document.querySelector('main').innerHTML = '';
-        getData(locationArray, 0);
-    }
-}
-
 /* -------------------- Enliven template with data  -------------------- */
 
 function setWeatherData(weatherData) {
@@ -317,7 +308,7 @@ function setWeatherData(weatherData) {
     const currentWeatherIcon = weatherTemplateClone.content.querySelector('.current-weather-icon');
     const currentTemperature = weatherTemplateClone.content.querySelector('.current-temperature-value');
 
-    currentWeatherIcon.setAttribute('src', '/images/illustrations/' + setWeatherIcon(weatherData.current.weather[0].icon) + '.png');
+    currentWeatherIcon.setAttribute('src', 'images/illustrations/' + setWeatherIcon(weatherData.current.weather[0].icon) + '.png');
     currentTemperature.innerText = Math.round(weatherData.current.temp);
     currentTemperature.parentNode.setAttribute('onclick', 'triggerToast("Now", "' + weatherData.current.weather[0].description + ' | ' + Math.round(weatherData.current.temp) + '°")');
 
@@ -379,7 +370,7 @@ function setWeatherData(weatherData) {
 
         // Hourly Weather Icon
         const hourlyWeatherIcon = hourlyWeatherItemClone.querySelector('.hourly-weather-item img');
-        hourlyWeatherIcon.setAttribute('src', '/images/icons/' + setWeatherIcon(weatherData.hourly[i].weather[0].icon) + '.svg');
+        hourlyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherIcon(weatherData.hourly[i].weather[0].icon) + '.svg');
 
         // Hourly Temperature
         const hourlyTemperature = hourlyWeatherItemClone.querySelector('.hourly-temperature');
@@ -413,7 +404,7 @@ function setWeatherData(weatherData) {
 
         // Daily Icon
         const dailyWeatherIcon = dailyWeatherItemClone.querySelector('.daily-weather-item img');
-        dailyWeatherIcon.setAttribute('src', '/images/icons/' + setWeatherIcon(weatherData.daily[i].weather[0].icon) + '.svg');
+        dailyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherIcon(weatherData.daily[i].weather[0].icon) + '.svg');
 
         // Daily Temperature
         const dailyTemperature = dailyWeatherItemClone.querySelector('.daily-temperature');
@@ -445,7 +436,7 @@ function setWeatherData(weatherData) {
     document.querySelector('main').appendChild(weatherTemplateClone.content.querySelector('article'), true);
 }
 
-/* -------------------- Toast  -------------------- */
+/* -------------------- Handle Toast  -------------------- */
 
 function triggerToast(title, description, type = 'info') {
     // Clone template
@@ -522,7 +513,7 @@ function getSunProgress(min, max, value) {
     return Math.round(100 / (max - min) * (value - min));
 }
 
-/* -------------------- Convert icon name -------------------- */
+/* -------------------- Convert Icon Name -------------------- */
 
 function setWeatherIcon(icon) {
     let iconName = '';
@@ -576,7 +567,7 @@ function setWeatherIcon(icon) {
     return iconName;
 }
 
-/* -------------------- Convert wind direction -------------------- */
+/* -------------------- Convert Wind Direction -------------------- */
 
 function setWindDirection(degrees, deg) {
     const step = 11.25;
