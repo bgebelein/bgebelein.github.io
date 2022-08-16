@@ -21,14 +21,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body>    
+<body>
     <header>
-        <button id="refresh-button" onclick="refreshData()"><img src="images/icons/refresh.svg" height="24" width="24"></button>
-        <button id="settings-button"><img src="images/icons/settings.svg" height="24" width="24"></button>
+        <button id="add-button" data-dialog-target="add-dialog">
+            <img src="images/icons/add.svg" height="24" width="24">
+        </button>
+        <button id="settings-button" data-dialog-target="settings-dialog">
+            <img src="images/icons/settings.svg" height="24" width="24">
+        </button>
     </header>
 
-    <main>
-    </main>
+    <main></main>
 
     <footer>
         <p><small>Made with <span class="text-red">♥</span> by Bent Gebelein</small></p>
@@ -37,31 +40,63 @@
 
     <!-- SETTINGS DIALOG -->
 
-    <dialog id="settings-dialog">
-        <h2>Settings</h2>
-        <form onsubmit="addLocation(this);return false;">
-            <input id="search" type="text" minlength="2" />
-            <button type="submit"><img src="images/icons/list-add.svg" height="24" width="24" /></button>
-        </form>
-        
+    <div id="settings-dialog" class="dialog">
+        <header>
+            <button id="close-dialog" onclick="closeDialog(this)"><img src="images/icons/back.svg" height="24"
+                    width="24" alt="Back icon" /></button>
+            <h2>Settings</h2>
+        </header>
 
         <ul id="location-list">
-            
+
         </ul>
+    </div>
 
-        <button id="close-dialog" onclick="closeDialog(this)"><img src="images/icons/close.svg" height="24" width="24" alt="Close icon" /></button>
-    </dialog>
+    <div id="add-dialog" class="dialog">
+        <header>
+            <button id="close-dialog" onclick="closeDialog(this)"><img src="images/icons/back.svg" height="24"
+                    width="24" alt="Back icon" /></button>
+            <h2>Add Location</h2>
+        </header>
+        <form id="search-form">
+            <input id="search" type="text" minlength="2" />
+            <button type="submit"><img src="images/icons/search.svg" height="24" width="24" alt="Search icon" /></button>
+        </form>
+        <ul id="location-search-reults">
 
-    <!-- LOCATION TEMPLATE -->
+        </ul>
+    </div>
 
-    <template id="location-template">
-        <li class="card" data-location="" draggable="true" ondragstart="drag(event)"><img src="images/icons/drag-handle.svg" height="24" width="24" draggable="false" /><span class="location-name" draggable="false"></span><button onclick="deleteLocation(this)" draggable="false"><img src="images/icons/delete.svg" height="24" width="24" draggable="false" /></button></li>
+    <!-- LOCATION SEARCH ITEM TEMPLATE -->
+
+    <template id="add-location-item">
+        <li class="card" data-location="">
+            <dl>
+                <dt></dt>
+                <dd></dd>
+            </dl>
+            <button>
+                <img src="images/icons/add.svg" height="24" width="24" />
+            </button>
+        </li>
+    </template>
+
+    <!-- LOCATION SETTINGS ITEM TEMPLATE -->
+
+    <template id="settings-location-item">
+        <li class="card" data-location-lat="" data-location-lon="" draggable="true">
+            <img src="images/icons/drag-handle.svg" height="24" width="24" />
+            <span class="location-name"></span>
+            <button>
+                <img src="images/icons/delete.svg" height="24" width="24" />
+            </button>
+        </li>
     </template>
 
     <!-- DRAG & DROP TEMPLATE -->
 
     <template id="drop-template">
-        <li class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)"></li>
+        <li class="drop-zone"></li>
     </template>
 
     <!-- TOAST TEMPLATE -->
@@ -86,83 +121,72 @@
             <!-- CURRENT WEATHER SECTION -->
 
             <section class="current-weather">
-                <div class="current-temperature" onclick="triggerToast(this)">
+                <div class="current-temperature">
                     <img class="current-weather-icon" alt="Current temperature icon" />
                     <h2 class="current-temperature-value"></h2>
                 </div>
 
                 <div class="current-weather-data">
                     <div class="current-sun card">
-                        <div class="current-sunrise" onclick="triggerToast(this)">
+                        <div class="current-sunrise">
                             <img src="images/icons/sunrise.svg" height="40" width="40" alt="Sunrise icon" />
                             <p class="current-sunrise-value"></p>
                         </div>
-                        <div class="current-sunposition" onclick="triggerToast(this)">
+                        <div class="current-sunposition">
                             <div class="current-sunposition-progress"></div>
-                            <img class="current-sunposition-indicator" src="images/icons/sun.svg" height="16" width="16" />
+                            <img class="current-sunposition-indicator" src="images/icons/sun.svg" height="16"
+                                width="16" />
                         </div>
-                        <div class="current-sunset" onclick="triggerToast(this)">
+                        <div class="current-sunset">
                             <img src="images/icons/sunset.svg" height="40" width="40" alt="Sunset icon" />
                             <p class="current-sunset-value"></p>
                         </div>
                     </div>
 
                     <div class="current-wind-direction card">
-                        <div onclick="triggerToast(this)">
-                            <svg id="compass" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="40" width="40">
-                                <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                  <g stroke="#fff">
+                        <svg id="compass" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="40" width="40">
+                            <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <g stroke="#fff">
                                     <circle cx="12" cy="12" r="9" />
                                     <path d="m12 3v1" />
                                     <path d="m12 20v1" />
                                     <path d="m3 12h1" />
                                     <path d="m19 12h1" />
-                                  </g>
-                                  <g id="needle" stroke="#e7324c">
-                                    <path d="m14 11h-4"  />
+                                </g>
+                                <g id="needle" stroke="#e7324c">
+                                    <path d="m14 11h-4" />
                                     <path d="m12.5 9.85h-1" />
                                     <path d="m12 17-2.5-5 2.5-5 2.5 5z" />
-                                  </g>
                                 </g>
-                              </svg>
-                            <p class="current-wind-direction-value"></p>
-                        </div>
+                            </g>
+                        </svg>
+                        <p class="current-wind-direction-value"></p>
                     </div>
 
                     <div class="current-wind-speed card">
-                        <div onclick="triggerToast(this)">
-                            <img src="images/icons/wind-speed.svg" height="40" width="40" alt="Wind speed icon" />
-                            <p class="current-wind-speed-value"></p>
-                        </div>
+                        <img src="images/icons/wind-speed.svg" height="40" width="40" alt="Wind speed icon" />
+                        <p class="current-wind-speed-value"></p>
                     </div>
 
                     <div class="current-pressure card">
-                        <div onclick="triggerToast(this)">
-                            <img src="images/icons/pressure.svg" height="40" width="40" alt="Pressure icon" />
-                            <p class="current-pressure-value"></p>
-                        </div>
+                        <img src="images/icons/pressure.svg" height="40" width="40" alt="Pressure icon" />
+                        <p class="current-pressure-value"></p>
                     </div>
 
                     <div class="current-humidity card">
-                        <div onclick="triggerToast(this)">
-                            <img src="images/icons/humidity.svg" height="40" width="40" alt="Humidity icon" />
-                            <p class="current-humidity-value"></p>
-                        </div>
+                        <img src="images/icons/humidity.svg" height="40" width="40" alt="Humidity icon" />
+                        <p class="current-humidity-value"></p>
                     </div>
 
                     <div class="current-pop card">
-                        <div onclick="triggerToast(this)">
-                            <img src="images/icons/pop.svg" height="40" width="40"
-                                alt="Probability of precipitation icon" />
-                            <p class="current-pop-value"></p>
-                        </div>
+                        <img src="images/icons/pop.svg" height="40" width="40"
+                            alt="Probability of precipitation icon" />
+                        <p class="current-pop-value"></p>
                     </div>
 
                     <div class="current-uv-index card">
-                        <div onclick="triggerToast(this)">
-                            <img src="images/icons/clear-sky-day.svg" height="40" width="40" alt="UV Index icon" />
-                            <p class="current-uvindex-value"></p>
-                        </div>
+                        <img src="images/icons/clear-sky-day.svg" height="40" width="40" alt="UV Index icon" />
+                        <p class="current-uvindex-value"></p>
                     </div>
                 </div>
             </section>
@@ -171,7 +195,7 @@
             <section class="hourly-weather">
                 <h2>Today</h2>
                 <ul class="hourly-weather-list">
-                    <li class="hourly-weather-item card" onclick="triggerToast(this)">
+                    <li class="hourly-weather-item card">
                         <img src="images/icons/clear-sky-day.svg" height="40" width="40" alt="Hourly weather Icon" />
                         <h3 class="hourly-temperature"></h3>
                         <p class="hourly-timestamp"></p>
@@ -183,7 +207,7 @@
             <section class="daily-weather">
                 <h2>Next 7 days</h2>
                 <ul class="daily-weather-list">
-                    <li class="daily-weather-item card" onclick="triggerToast(this)">
+                    <li class="daily-weather-item card">
                         <ul>
                             <li>
                                 <h3 class="daily-day"></h3>
@@ -201,8 +225,7 @@
                         </div>
 
                         <ul>
-                            <li><img src="images/icons/pop.svg" height="16" width="16" /><span
-                                    class="daily-pop"></span>
+                            <li><img src="images/icons/pop.svg" height="16" width="16" /><span class="daily-pop"></span>
                             </li>
                             <li><img src="images/icons/wind-speed.svg" height="16" width="16" /><span
                                     class="daily-wind"></span></li>

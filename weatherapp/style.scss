@@ -13,6 +13,7 @@
     background-size: contain;
     --yellow: #FFCC00;
     --red: #E7324C;
+    --blue: #3CABF8;
     --wind-direction: 0;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -24,9 +25,10 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: calc(100vh - 72px);
     color: #030311;
     font-family: 'Urbanist', sans-serif;
+    font-weight: 500;
     color: #fff;
     position: relative;
 }
@@ -39,14 +41,24 @@ button {
     line-height: 0;
 }
 
+*[draggable=true]{
+    cursor: grab;
+
+    &:active{
+        cursor: grabbing;
+    }
+}
+
 /* -------------------------- Typo -------------------------- */
 
 h2{
-    margin: 2.5rem 0 .75rem 0
+    margin: 2.5rem 0 .75rem 0;
+    display: block;
+    width: 100%;
 }
 
 h3 {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 a {
@@ -55,6 +67,123 @@ a {
 
 ul {
     list-style: none;
+}
+
+dl{
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: 1.125rem;
+
+    dt{
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    dd{
+        opacity: .8;
+        font-weight: 300;
+    }
+}
+
+.text-red{
+    color: var(--red);
+}
+
+/* -------------------------- Helpers -------------------------- */
+
+.card {
+    border-radius: .5rem;
+    background-color: rgba(255, 255, 255, .05);
+    padding: 1rem;
+}
+
+.toast{
+    width: calc(100vw - 3rem);
+    position: fixed;
+    bottom: 1rem;
+    z-index: 999999;
+    background-color: rgba(#000, .95);
+    padding: 1.25rem;
+    margin: 0 1.5rem;
+    animation-name: toast;
+    animation-duration: 3.5s;
+    animation-timing-function: ease-in-out;
+
+    &.warning{
+        border: 1px solid var(--yellow);
+    }
+
+    &.error{
+        border: 1px solid var(--red);
+    }
+
+    dl{
+        justify-content: space-between;
+    }
+}
+
+@keyframes toast {
+    0%{
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    10%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100%{
+        opacity: 0;
+        transform: translateY(100%);
+    }
+}
+
+/* -------------------------- Dialog -------------------------- */
+
+.dialog{
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    background-color: rgba(#000, .8);
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+    padding: 0 2rem;
+    transition: left .3s ease-in-out;
+
+    h2{
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    #close-dialog{
+        position: absolute;
+        left: .75rem;
+        top: .75rem;
+    }
+
+    &#settings-dialog{
+        left: 100%;
+        will-change: left;
+    }
+
+    &#add-dialog{
+        left: -100%;
+        will-change: left;    
+    }
+
+    &.open{
+        left: 0 !important;
+    }
 }
 
 /* -------------------------- Form & Input -------------------------- */
@@ -86,14 +215,13 @@ form{
     }
 }
 
-
-
 /* -------------------------- Locations -------------------------- */
 
-ul#location-list{
-    display: grid;
-    grid-template-rows: auto;
-    grid-gap: .75rem;
+ul#location-list,
+ul#location-search-reults{
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
     margin-top: 1rem;
 
     li{
@@ -110,98 +238,6 @@ ul#location-list{
     }
 }
 
-/* -------------------------- Helpers -------------------------- */
-
-.card {
-    border-radius: .5rem;
-    background-color: rgba(255, 255, 255, .05);
-    padding: 1rem;
-}
-
-.toast{
-    width: calc(100vw - 3rem);
-    position: fixed;
-    bottom: 1rem;
-    background-color: rgba(0, 0, 0, .95);
-    padding: 1.25rem;
-    margin: 0 1.5rem;
-    animation-name: toast;
-    animation-duration: 3.5s;
-    animation-timing-function: ease-in-out;
-
-    dl{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        dt{
-            font-weight: 500;
-
-            &::after{
-                content: ':';
-            }
-        }
-
-        dd{
-            opacity: .6;
-            text-transform: capitalize;
-        }
-    }
-}
-
-@keyframes toast {
-    0%{
-        opacity: 0;
-        transform: translateY(100%);
-    }
-
-    10%{
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    90%{
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    100%{
-        opacity: 0;
-        transform: translateY(100%);
-    }
-}
-
-/* -------------------------- Dialog -------------------------- */
-
-dialog{
-    background: none;
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: none;
-    color: #fff;
-
-    &::backdrop{
-        background-color: rgba(#000, .95);
-    }
-
-    h2{
-        text-align: center;
-        margin: 1rem 0 2rem;
-    }
-
-    #close-dialog{
-        position: fixed;
-        bottom: 1rem;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-}
-
 /* -------------------------- Header -------------------------- */
 
 header{
@@ -212,7 +248,7 @@ header{
 
     button{
         position: relative;
-        z-index: 9;
+        z-index: 99;
     }
 }
 
@@ -227,6 +263,17 @@ main {
     -ms-overflow-style: none;
     scrollbar-width: none;
     margin-top: -6rem;
+
+    &:empty::before  {
+        content: "No weather data. Add locations or try again later.";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: block;
+        width: 80%;
+    } 
 
     &::-webkit-scrollbar {
         display: none;
@@ -286,7 +333,7 @@ footer {
         margin: 2rem 0 5rem;
 
         .current-weather-icon {
-            width: 33vw;
+            width: 33%;
             display: block;
             margin: 0 auto;
         }
@@ -423,6 +470,7 @@ footer {
     
             .hourly-timestamp {
                 opacity: .6;
+                letter-spacing: 1px;
             }
         }
     }
@@ -459,6 +507,7 @@ footer {
                 font-size: 2.5rem;
                 line-height: 1;
                 margin: 0 .75rem;
+                font-weight: 600;
         
                 &::after {
                     content: '°';
