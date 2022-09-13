@@ -247,13 +247,14 @@ let weatherLocationName;
 
 function getData(locationArr, counter) {
     // Set location name for headline
-    weatherLocationName = locationArr[counter].name;
+    weatherLocationName = locationArr[counter] ? locationArr[counter].name : null;
     console.log(weatherLocationName);
 
     // Get weather data
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + locationArr[counter].lat + '&lon=' + locationArr[counter].lon + '&appid=' + apiKey + '&units=metric&exclude=minutely')
     .then((response) => response.json())
     .then((weatherData) => {
+        console.log(weatherData);
         let dataAdded = false;
 
         // Update lastUpdate value
@@ -430,6 +431,20 @@ function setWeatherData(weatherData) {
 
         // Add to template clone
         dailyWeatherList.appendChild(dailyWeatherItemClone, true);
+    }
+
+    // Add weather alerts if avaiable
+    if (weatherData.alerts) {
+        // Weather alert template
+        const alertTemplate = document.querySelector('#alert-template');
+        let alertTemplateClone = alertTemplate.cloneNode(true);
+
+        // Set alert value
+        const alertValue = alertTemplateClone.content.querySelector('.alert-value');
+        alertValue.innerText = weatherData.alerts[0].event;
+
+        // Add clone to DOM
+        weatherTemplateClone.content.querySelector('section.current-weather').insertBefore(alertTemplateClone.content.querySelector('.card'), weatherTemplateClone.content.querySelector('.current-weather-data'));
     }
 
     // Add clone to DOM
