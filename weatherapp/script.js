@@ -322,6 +322,7 @@ function setWeatherData(weatherData) {
     let currentSunpositionValue = getSunProgress(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
     const currentSunpositionIndicator = weatherTemplateClone.content.querySelector('.current-sunposition-indicator');
     currentSunpositionIndicator.style.left = currentSunpositionValue + '%';
+    currentSunpositionIndicator.style.left === '0%' ? currentSunpositionIndicator.style.opacity = 0 : currentSunpositionIndicator.style.opacity = 1;
     const currentSunpositionProgress = weatherTemplateClone.content.querySelector('.current-sunposition-progress');
     currentSunpositionProgress.style.width = currentSunpositionValue + '%';
 
@@ -352,10 +353,18 @@ function setWeatherData(weatherData) {
     currentHumidity.innerText = weatherData.current.humidity;
     currentHumidity.parentNode.setAttribute('onclick', 'triggerToast("Pressure", "' + weatherData.current.humidity + ' %")');
 
-    // Propertiy of 
+    // Propertiy of precipitation
     const currentPop = weatherTemplateClone.content.querySelector('.current-pop-value');
     currentPop.innerText = Math.round(weatherData.hourly[0].pop * 100);
-    currentPop.parentNode.setAttribute('onclick', 'triggerToast("Probability of precipitation", "' + Math.round(weatherData.hourly[0].pop * 100) + ' %")');
+
+    if (weatherData.hourly[0].rain) {
+        let rainVolume = 1000 * 1000 * weatherData.hourly[0].rain["1h"] / 1000000;
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + rainVolume + ' l/m²")');
+    } else if (weatherData.hourly[0].snow) {
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + weatherData.hourly[0].snow["1h"] + ' mm")');
+    } else {
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' %")');
+    }
 
     // UV Index
     const currentUvIndex = weatherTemplateClone.content.querySelector('.current-uvindex-value');
@@ -417,12 +426,13 @@ function setWeatherData(weatherData) {
         const dailyTemperatureMin = dailyWeatherItemClone.querySelector('.daily-temperature-min');
         dailyTemperatureMin.innerText = Math.round(weatherData.daily[i].temp.min);
 
-        // POP & Wind
+        // POP
         const dailyPop = dailyWeatherItemClone.querySelector('.daily-pop');
-        dailyPop.innerText = Math.round(weatherData.daily[i].pop * 100);
-
+        dailyPop.innerText = `${Math.round(weatherData.daily[i].pop * 100)} %`;
+        
+        // Wind
         const dailyWind = dailyWeatherItemClone.querySelector('.daily-wind');
-        dailyWind.innerText = Math.round(weatherData.daily[i].wind_speed * 3.6);
+        dailyWind.innerText = `${Math.round(weatherData.daily[i].wind_speed * 3.6)} km/h`;
 
         // Add toast
         let toastTitle = getDay(weatherData.daily[i].dt, weatherData.timezone_offset); // Day
@@ -525,7 +535,11 @@ function getDay(timestamp, offset) {
 }
 
 function getSunProgress(min, max, value) {
-    return Math.round(100 / (max - min) * (value - min));
+    if ((Math.round(100 / (max - min) * (value - min))) > 0) {
+        return Math.round(100 / (max - min) * (value - min));
+    } else {
+        return 0;
+    }
 }
 
 /* -------------------- Convert Icon Name -------------------- */
