@@ -290,6 +290,14 @@ function getData(locationArr, counter) {
             getData(locationArr, counter);
         }
     });
+
+    // Location image
+
+    fetch(`https://api.unsplash.com/photos/random?client_id=EZHyd42NG5tK6y7bvUL8EjrKio38_0mk-YfTFrlPZo4&orientation=portrait&query=${locationArr[counter].name},city`)
+    .then((response) => response.json())
+    .then((imageData) => {
+        console.log(imageData);
+    });
 }
 
 getData(locationArr, 0);
@@ -305,11 +313,16 @@ function setWeatherData(weatherData) {
     const weatherLocation = weatherTemplateClone.content.querySelector('.weather-location');
     weatherLocation.innerText = weatherLocationName;
 
-    // Current weather / Temp
-    const currentWeatherIcon = weatherTemplateClone.content.querySelector('.current-weather-icon');
-    const currentTemperature = weatherTemplateClone.content.querySelector('.current-temperature-value');
+    // Current weather video
+    const currentWeatherVideo = weatherTemplateClone.content.querySelector('.current-weather-video > video');
+    currentWeatherVideo.setAttribute('src', 'vid/' + setWeatherIcon(weatherData.current.weather[0].icon) + '.mp4');
 
+    // Current weather icon
+    const currentWeatherIcon = weatherTemplateClone.content.querySelector('.current-weather-icon');
     currentWeatherIcon.setAttribute('src', 'images/illustrations/' + setWeatherIcon(weatherData.current.weather[0].icon) + '.png');
+
+    // Current Temp
+    const currentTemperature = weatherTemplateClone.content.querySelector('.current-temperature-value');
     currentTemperature.innerText = Math.round(weatherData.current.temp);
     currentTemperature.parentNode.setAttribute('onclick', 'triggerToast("Now", "' + weatherData.current.weather[0].description + ' | ' + Math.round(weatherData.current.temp) + '°")');
 
