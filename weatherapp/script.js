@@ -290,14 +290,6 @@ function getData(locationArr, counter) {
             getData(locationArr, counter);
         }
     });
-
-    // Location image
-
-    fetch(`https://api.unsplash.com/photos/random?client_id=EZHyd42NG5tK6y7bvUL8EjrKio38_0mk-YfTFrlPZo4&orientation=portrait&query=${locationArr[counter].name},city`)
-    .then((response) => response.json())
-    .then((imageData) => {
-        console.log(imageData);
-    });
 }
 
 getData(locationArr, 0);
