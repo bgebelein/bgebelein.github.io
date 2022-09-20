@@ -27,7 +27,6 @@ if (localStorage.getItem('myWeatherLastUpdate')) {
 /* -------------------- Locations Settings Dialog  -------------------- */
 
 const locationSettingsTemplate = document.querySelector('#settings-location-item');
-const dropTemplate = document.querySelector('#drop-template');
 const locationList = document.querySelector('#location-list');
 
 function createLocationList() {
@@ -318,13 +317,18 @@ function setWeatherData(weatherData) {
     currentTemperature.innerText = Math.round(weatherData.current.temp);
     currentTemperature.parentNode.setAttribute('onclick', 'triggerToast("Now", "' + weatherData.current.weather[0].description + ' | ' + Math.round(weatherData.current.temp) + '°")');
 
+    // Sun / Moon container
+    const sunMoonContainer = weatherTemplateClone.content.querySelector('.sun-moon');
+    sunMoonContainer.addEventListener('click', function(e){
+        e.currentTarget.classList.toggle('flipped');
+    });
+
     // Sunrise
     const currentSunrise = weatherTemplateClone.content.querySelector('.current-sunrise-value');
     currentSunrise.innerText = getHoursAndMinutes(weatherData.current.sunrise, weatherData.timezone_offset);
-    currentSunrise.parentNode.setAttribute('onclick', 'triggerToast("Sunrise", "' + getHoursAndMinutes(weatherData.current.sunrise, weatherData.timezone_offset) + '")');
 
     // Sunposition
-    let currentSunpositionValue = getSunProgress(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
+    let currentSunpositionValue = mapPercentageValue(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
     const currentSunpositionIndicator = weatherTemplateClone.content.querySelector('.current-sunposition-indicator');
     currentSunpositionIndicator.style.left = currentSunpositionValue + '%';
     currentSunpositionIndicator.style.left === '0%' ? currentSunpositionIndicator.style.opacity = 0 : currentSunpositionIndicator.style.opacity = 1;
@@ -334,7 +338,22 @@ function setWeatherData(weatherData) {
     // Sunset
     const currentSunset = weatherTemplateClone.content.querySelector('.current-sunset-value');
     currentSunset.innerText = getHoursAndMinutes(weatherData.current.sunset, weatherData.timezone_offset);
-    currentSunset.parentNode.setAttribute('onclick', 'triggerToast("Sunset", "' + getHoursAndMinutes(weatherData.current.sunset, weatherData.timezone_offset) + '")');
+
+    // Moonrise
+    const currentMoonrise = weatherTemplateClone.content.querySelector('.current-moonrise-value');
+    currentMoonrise.innerText = getHoursAndMinutes(weatherData.daily[0].moonset, weatherData.timezone_offset);
+
+    // Moonposition
+    let currentMoonpositionValue = mapPercentageValue(weatherData.daily[0].moonset, weatherData.daily[0].moonrise, weatherData.current.dt);
+    const currentMoonpositionIndicator = weatherTemplateClone.content.querySelector('.current-moonposition-indicator');
+    currentMoonpositionIndicator.style.left = currentMoonpositionValue + '%';
+    currentMoonpositionIndicator.style.left === '0%' ? currentMoonpositionIndicator.style.opacity = 0 : currentMoonpositionIndicator.style.opacity = 1;
+    const currentMoonpositionProgress = weatherTemplateClone.content.querySelector('.current-moonposition-progress');
+    currentMoonpositionProgress.style.width = currentMoonpositionValue + '%';
+
+    // Moonset
+    const currentMoonset = weatherTemplateClone.content.querySelector('.current-moonset-value');
+    currentMoonset.innerText = getHoursAndMinutes(weatherData.daily[0].moonrise, weatherData.timezone_offset);
 
     // Wind Direction
     weatherTemplateClone.content.querySelector('#needle').style.transform = 'rotate(' + weatherData.current.wind_deg + 'deg)';
@@ -356,7 +375,7 @@ function setWeatherData(weatherData) {
     // Humidity
     const currentHumidity = weatherTemplateClone.content.querySelector('.current-humidity-value');
     currentHumidity.innerText = weatherData.current.humidity;
-    currentHumidity.parentNode.setAttribute('onclick', 'triggerToast("Pressure", "' + weatherData.current.humidity + ' %")');
+    currentHumidity.parentNode.setAttribute('onclick', 'triggerToast("Humidity", "' + weatherData.current.humidity + ' %")');
 
     // Propertiy of precipitation
     const currentPop = weatherTemplateClone.content.querySelector('.current-pop-value');
@@ -364,11 +383,11 @@ function setWeatherData(weatherData) {
 
     if (weatherData.hourly[0].rain) {
         let rainVolume = 1000 * 1000 * weatherData.hourly[0].rain["1h"] / 1000000;
-        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + rainVolume + ' l/m²")');
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("Rain", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + rainVolume + ' l/m²")');
     } else if (weatherData.hourly[0].snow) {
-        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + weatherData.hourly[0].snow["1h"] + ' mm")');
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("Snow", "' + Math.round(weatherData.hourly[0].pop * 100) + ' % | ' + weatherData.hourly[0].snow["1h"] + ' mm")');
     } else {
-        currentPop.parentNode.setAttribute('onclick', 'triggerToast("POP", "' + Math.round(weatherData.hourly[0].pop * 100) + ' %")');
+        currentPop.parentNode.setAttribute('onclick', 'triggerToast("Probability of precipitation", "' + Math.round(weatherData.hourly[0].pop * 100) + ' %")');
     }
 
     // UV Index
@@ -539,7 +558,7 @@ function getDay(timestamp, offset) {
     }
 }
 
-function getSunProgress(min, max, value) {
+function mapPercentageValue(min, max, value) {
     if ((Math.round(100 / (max - min) * (value - min))) > 0) {
         return Math.round(100 / (max - min) * (value - min));
     } else {
@@ -685,4 +704,8 @@ function setWindDirection(degrees, deg) {
     if (degrees > (337.5 - step) && degrees <= (337.5 + step)) {
         return deg ? degrees + '°' : 'NNW';
     }
+}
+
+function flipCard(e) {
+    e.target.classList.toggle('flipped');
 }

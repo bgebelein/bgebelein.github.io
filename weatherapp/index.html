@@ -111,10 +111,7 @@
     <template id="alert-template">
         <div class="weather-alert card">
             <img src="images/icons/warning.svg" height="24" width="24" alt="Alert icon" />
-            <dl>
-                <dt>Warning:</dt>
-                <dd class="alert-value"></dd>
-            </dl>
+            <p class="alert-value"></p>
         </div>
     </template>
 
@@ -139,21 +136,44 @@
                 </div>
 
                 <div class="current-weather-data">
-                    <div class="current-sun card">
-                        <div class="current-sunrise">
-                            <img src="images/icons/sunrise.svg" height="40" width="40" alt="Sunrise icon" />
-                            <p class="current-sunrise-value"></p>
+
+                    <div class="sun-moon">
+
+                        <div class="current-sun card">
+                            <div class="current-sunrise">
+                                <img src="images/icons/sunrise.svg" height="40" width="40" alt="Sunrise icon" />
+                                <p class="current-sunrise-value"></p>
+                            </div>
+                            <div class="current-sunposition">
+                                <div class="current-sunposition-progress"></div>
+                                <img class="current-sunposition-indicator" src="images/icons/sun.svg" height="24"
+                                    width="24" />
+                            </div>
+                            <div class="current-sunset">
+                                <img src="images/icons/sunset.svg" height="40" width="40" alt="Sunset icon" />
+                                <p class="current-sunset-value"></p>
+                            </div>
                         </div>
-                        <div class="current-sunposition">
-                            <div class="current-sunposition-progress"></div>
-                            <img class="current-sunposition-indicator" src="images/icons/sun.svg" height="16"
-                                width="16" />
+    
+                        <div class="current-moon card">
+                            <div class="current-moonrise">
+                                <img src="images/icons/moonrise.svg" height="40" width="40" alt="Moonrise icon" />
+                                <p class="current-moonrise-value"></p>
+                            </div>
+                            <div class="current-sunposition">
+                                <div class="current-moonposition-progress"></div>
+                                <img class="current-moonposition-indicator" src="images/icons/moon.svg" height="24"
+                                    width="24" />
+                            </div>
+                            <div class="current-moonset">
+                                <img src="images/icons/moonset.svg" height="40" width="40" alt="Moonset icon" />
+                                <p class="current-moonset-value"></p>
+                            </div>
                         </div>
-                        <div class="current-sunset">
-                            <img src="images/icons/sunset.svg" height="40" width="40" alt="Sunset icon" />
-                            <p class="current-sunset-value"></p>
-                        </div>
+
                     </div>
+
+                    
 
                     <div class="current-wind-direction card">
                         <svg id="compass" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="40" width="40">
@@ -197,7 +217,7 @@
                     </div>
 
                     <div class="current-uv-index card">
-                        <img src="images/icons/clear-sky-day.svg" height="40" width="40" alt="UV Index icon" />
+                        <img src="images/icons/uv-index.svg" height="40" width="40" alt="UV Index icon" />
                         <p class="current-uvindex-value"></p>
                     </div>
                 </div>
