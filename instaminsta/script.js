@@ -46,6 +46,17 @@ function initiateCamera () {
             });
             console.log('Torch: ' + (torch ? 'On' : 'Off'));
         });
+
+        // Close camera when page is not active
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                initiateCamera();
+                console.log('Stream re-started');
+            } else {
+                stream.stop();
+                console.log('Stream stopped');
+            }
+        });
     
         // log actual width & height of the camera video
         console.log('Camera Resolution: ' + videoWidth + 'x' + videoHeight);
