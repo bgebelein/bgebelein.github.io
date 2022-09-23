@@ -331,7 +331,7 @@ function setWeatherData(weatherData) {
     let currentSunpositionValue = mapPercentageValue(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
     const currentSunpositionIndicator = weatherTemplateClone.content.querySelector('.current-sunposition-indicator');
     currentSunpositionIndicator.style.left = currentSunpositionValue + '%';
-    currentSunpositionIndicator.style.left === '0%' ? currentSunpositionIndicator.style.opacity = 0 : currentSunpositionIndicator.style.opacity = 1;
+    currentSunpositionValue === 0 ? currentSunpositionIndicator.style.opacity = 0 : currentSunpositionIndicator.style.opacity = 1;
     const currentSunpositionProgress = weatherTemplateClone.content.querySelector('.current-sunposition-progress');
     currentSunpositionProgress.style.width = currentSunpositionValue + '%';
 
@@ -344,10 +344,10 @@ function setWeatherData(weatherData) {
     currentMoonrise.innerText = getHoursAndMinutes(weatherData.daily[0].moonset, weatherData.timezone_offset);
 
     // Moonposition
-    let currentMoonpositionValue = mapPercentageValue(weatherData.daily[0].moonset, weatherData.daily[0].moonrise, weatherData.current.dt);
+    let currentMoonpositionValue = mapPercentageValue(weatherData.daily[0].moonrise, weatherData.daily[0].moonset, weatherData.current.dt);
     const currentMoonpositionIndicator = weatherTemplateClone.content.querySelector('.current-moonposition-indicator');
     currentMoonpositionIndicator.style.left = currentMoonpositionValue + '%';
-    currentMoonpositionIndicator.style.left === '0%' ? currentMoonpositionIndicator.style.opacity = 0 : currentMoonpositionIndicator.style.opacity = 1;
+    currentMoonpositionValue === 0 ? currentMoonpositionIndicator.style.opacity = 0 : currentMoonpositionIndicator.style.opacity = 1;
     const currentMoonpositionProgress = weatherTemplateClone.content.querySelector('.current-moonposition-progress');
     currentMoonpositionProgress.style.width = currentMoonpositionValue + '%';
 
@@ -704,8 +704,4 @@ function setWindDirection(degrees, deg) {
     if (degrees > (337.5 - step) && degrees <= (337.5 + step)) {
         return deg ? degrees + '°' : 'NNW';
     }
-}
-
-function flipCard(e) {
-    e.target.classList.toggle('flipped');
 }
