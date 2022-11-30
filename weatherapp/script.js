@@ -329,9 +329,12 @@ function setWeatherData(weatherData) {
 
     // Sunposition
     let currentSunpositionValue = mapPercentageValue(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
+    currentSunpositionValue === 0 ? sunMoonContainer.classList.add('flipped') : null;
+
     const currentSunpositionIndicator = weatherTemplateClone.content.querySelector('.current-sunposition-indicator');
     currentSunpositionIndicator.style.left = currentSunpositionValue + '%';
     currentSunpositionValue === 0 ? currentSunpositionIndicator.style.opacity = 0 : currentSunpositionIndicator.style.opacity = 1;
+
     const currentSunpositionProgress = weatherTemplateClone.content.querySelector('.current-sunposition-progress');
     currentSunpositionProgress.style.width = currentSunpositionValue + '%';
 
@@ -559,7 +562,7 @@ function getDay(timestamp, offset) {
 }
 
 function mapPercentageValue(min, max, value) {
-    if ((Math.round(100 / (max - min) * (value - min))) > 0) {
+    if ((Math.round(100 / (max - min) * (value - min))) > 0 && (Math.round(100 / (max - min) * (value - min))) <= 100) {
         return Math.round(100 / (max - min) * (value - min));
     } else {
         return 0;
