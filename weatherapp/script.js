@@ -329,7 +329,6 @@ function setWeatherData(weatherData) {
 
     // Sunposition
     let currentSunpositionValue = mapPercentageValue(weatherData.current.sunrise, weatherData.current.sunset, weatherData.current.dt);
-    currentSunpositionValue === 0 ? sunMoonContainer.classList.add('flipped') : null;
 
     const currentSunpositionIndicator = weatherTemplateClone.content.querySelector('.current-sunposition-indicator');
     currentSunpositionIndicator.style.left = currentSunpositionValue + '%';
@@ -348,15 +347,20 @@ function setWeatherData(weatherData) {
 
     // Moonposition
     let currentMoonpositionValue = mapPercentageValue(weatherData.daily[0].moonrise, weatherData.daily[0].moonset, weatherData.current.dt);
+
     const currentMoonpositionIndicator = weatherTemplateClone.content.querySelector('.current-moonposition-indicator');
     currentMoonpositionIndicator.style.left = currentMoonpositionValue + '%';
     currentMoonpositionValue === 0 ? currentMoonpositionIndicator.style.opacity = 0 : currentMoonpositionIndicator.style.opacity = 1;
+
     const currentMoonpositionProgress = weatherTemplateClone.content.querySelector('.current-moonposition-progress');
     currentMoonpositionProgress.style.width = currentMoonpositionValue + '%';
 
     // Moonset
     const currentMoonset = weatherTemplateClone.content.querySelector('.current-moonset-value');
     currentMoonset.innerText = getHoursAndMinutes(weatherData.daily[0].moonrise, weatherData.timezone_offset);
+
+    // Show Moon Widget, when useful
+    currentSunpositionValue === 0 && currentMoonpositionValue !== 0 ? sunMoonContainer.classList.add('flipped') : null;
 
     // Wind Direction
     weatherTemplateClone.content.querySelector('#needle').style.transform = 'rotate(' + weatherData.current.wind_deg + 'deg)';
@@ -562,7 +566,7 @@ function getDay(timestamp, offset) {
 }
 
 function mapPercentageValue(min, max, value) {
-    if ((Math.round(100 / (max - min) * (value - min))) > 0 && (Math.round(100 / (max - min) * (value - min))) <= 100) {
+    if (value <= max && value >= min) {
         return Math.round(100 / (max - min) * (value - min));
     } else {
         return 0;
