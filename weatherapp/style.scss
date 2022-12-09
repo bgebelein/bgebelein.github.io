@@ -8,7 +8,6 @@
 
 :root {
     background-color: #05051A;
-    background-image: radial-gradient(closest-corner, #080826, #05051A);
     background-attachment: fixed;
     background-size: contain;
     --yellow: #FFCC00;
@@ -31,6 +30,7 @@ body {
     font-weight: 500;
     color: #fff;
     position: relative;
+    letter-spacing: .02rem;
 }
 
 button {
@@ -67,6 +67,10 @@ a {
 
 ul {
     list-style: none;
+
+    li.card{
+        background-color: rgba(#fff, .04) !important;
+    }
 }
 
 dl{
@@ -96,7 +100,7 @@ dl{
 
 .card {
     border-radius: .5rem;
-    background-color: rgba(255, 255, 255, .05);
+    background-color: #121226;
     padding: 1rem;
 }
 
@@ -160,6 +164,10 @@ dl{
     padding: 0 2rem;
     transition: left .3s ease-in-out;
 
+    &.open{
+        left: 0 !important;
+    }
+
     h2{
         text-align: center;
         margin-top: 1rem;
@@ -179,10 +187,6 @@ dl{
     &#add-dialog{
         left: -100%;
         will-change: left;    
-    }
-
-    &.open{
-        left: 0 !important;
     }
 }
 
@@ -285,6 +289,7 @@ main {
 
         section {
             scroll-snap-align: center;
+            scroll-snap-stop: always;
     
             &:last-of-type {
                 margin-bottom: 0;
@@ -319,10 +324,62 @@ footer {
     margin: 0;
 }
 
+/* -------------------------- Weather Alerts -------------------------- */
+
+.weather-alert{
+    font-weight: 500;
+    margin: -3rem 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+
+    p.alert-value{
+        text-transform: capitalize;
+    }
+}
+
 /* -------------------------- Current Weather -------------------------- */
 
 .current-weather {
     padding: 0 .75rem;
+
+    .current-weather-video{
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+
+        video{
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+        }
+
+        &::after{
+            content: "";
+            display: block;
+            background-image: linear-gradient(rgba(#05051A,1) 0%, rgba(#05051A,0.1) 50%, rgba(#05051A,1) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        &::before{
+            content: "";
+            display: block;
+            background-image: linear-gradient(90deg, rgba(#05051A,1) 0%, rgba(#05051A,0.1) 50%, rgba(#05051A,1) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
 
     .current-temperature {
         background-image: radial-gradient(closest-side, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0));
@@ -330,7 +387,7 @@ footer {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 2rem 0 5rem;
+        margin: 0 0 5rem;
 
         .current-weather-icon {
             width: 33%;
@@ -361,8 +418,9 @@ footer {
             "wind-direction wind-speed pressure"
             "humidity pop uvi";
         grid-gap: .75rem;
+        perspective: 4000px;
 
-        div:not(.current-sun) {
+        div:not(.sun-moon) {
             display: grid;
             place-content: center;
         }
@@ -379,32 +437,54 @@ footer {
         }
     }
 
-    .current-sun {
+    .sun-moon{
+        height: 100%;
+        margin-bottom: -25%;
         grid-area: sun;
+        transform-style: preserve-3d;
+        transition: transform .3s ease-out;
+
+        &.flipped{
+            transform: rotateX(180deg);
+        }
+    }
+
+    .current-sun,
+    .current-moon {
+        height: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         align-items: center;
         grid-gap: .75rem;
         padding: 1rem 0;
+        backface-visibility: hidden;
 
-        .current-sunposition {
+        .current-sunposition,
+        .current-moonposition {
             position: relative;
             height: 0;
             border-bottom: .125rem dotted rgba(255, 255, 255, 0.6);
 
-            .current-sunposition-progress{
+            .current-sunposition-progress,
+            .current-moonposition-progress{
                 position: absolute;
                 display: block;
                 height: 2px;
                 background-color: #fff;
             }
 
-            .current-sunposition-indicator{
+            .current-sunposition-indicator,
+            .current-moonposition-indicator{
                 margin: 0;
                 position: absolute;
                 transform: translate(-50%, -50%);
             }
         }
+    }
+
+    .current-moon{
+        transform: rotateX(-180deg);
+        transform-origin: top;
     }
 
     .current-wind-direction svg#compass #needle {
@@ -506,7 +586,7 @@ footer {
             .daily-temperature {
                 font-size: 2.5rem;
                 line-height: 1;
-                margin: 0 .75rem;
+                margin: 0 .125rem 0 .75rem;
                 font-weight: 600;
         
                 &::after {
@@ -534,26 +614,19 @@ footer {
             }
         
             ul {
+
                 li {
                     display: flex;
                     align-items: center;
         
                     img {
-                        margin-right: .25rem;
+                        margin-right: .125rem;
                         opacity: .6;
                     }
         
                     .daily-pop,
                     .daily-wind {
                         opacity: .6;
-                    }
-        
-                    .daily-pop::after {
-                        content: ' %';
-                    }
-        
-                    .daily-wind::after {
-                        content: ' km/h';
                     }
                 }
             }

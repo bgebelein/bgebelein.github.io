@@ -485,7 +485,7 @@ function setWeatherData(weatherData) {
         alertValue.innerText = weatherData.alerts[0].event;
 
         // Add clone to DOM
-        weatherTemplateClone.content.querySelector('section.current-weather').insertBefore(alertTemplateClone.content.querySelector('.card'), weatherTemplateClone.content.querySelector('.current-weather-data'));
+        weatherTemplateClone.content.querySelector('section.current-weather').insertBefore(alertTemplateClone.content.querySelector('.weather-alert'), weatherTemplateClone.content.querySelector('.current-weather-data'));
     }
 
     // Add clone to DOM
