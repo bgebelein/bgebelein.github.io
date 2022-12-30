@@ -306,11 +306,11 @@ function setWeatherData(weatherData) {
 
     // Current weather video
     const currentWeatherVideo = weatherTemplateClone.content.querySelector('.current-weather-video > video');
-    currentWeatherVideo.setAttribute('src', 'vid/' + setWeatherVideo(weatherData.current.weather[0].icon) + '.mp4');
+    currentWeatherVideo.setAttribute('src', 'vid/' + setWeatherMedia(weatherData.current.weather[0], 'mp4') + '.mp4');
 
     // Current weather icon
     const currentWeatherIcon = weatherTemplateClone.content.querySelector('.current-weather-icon');
-    currentWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherIcon(weatherData.current.weather[0].id) + '.svg');
+    currentWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherMedia(weatherData.current.weather[0], 'svg') + '.svg');
 
     // Current Temp
     const currentTemperature = weatherTemplateClone.content.querySelector('.current-temperature-value');
@@ -411,7 +411,7 @@ function setWeatherData(weatherData) {
 
         // Hourly Weather Icon
         const hourlyWeatherIcon = hourlyWeatherItemClone.querySelector('.hourly-weather-item img');
-        hourlyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherIcon(weatherData.hourly[i].weather[0].id) + '.svg');
+        hourlyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherMedia(weatherData.hourly[i].weather[0], 'svg') + '.svg');
 
         // Hourly Temperature
         const hourlyTemperature = hourlyWeatherItemClone.querySelector('.hourly-temperature');
@@ -445,7 +445,7 @@ function setWeatherData(weatherData) {
 
         // Daily Icon
         const dailyWeatherIcon = dailyWeatherItemClone.querySelector('.daily-weather-item img');
-        dailyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherIcon(weatherData.daily[i].weather[0].id) + '.svg');
+        dailyWeatherIcon.setAttribute('src', 'images/icons/' + setWeatherMedia(weatherData.daily[i].weather[0], 'svg') + '.svg');
 
         // Daily Temperature
         const dailyTemperature = dailyWeatherItemClone.querySelector('.daily-temperature');
@@ -575,144 +575,152 @@ function mapPercentageValue(min, max, value) {
 
 /* -------------------- Convert Icon Name -------------------- */
 
-function setWeatherIcon(id) {
-    let iconName = '';
+function setWeatherMedia(weather, filetype) {
+    if (filetype === 'mp4'){
+        let videoName = '';
 
-    // thunderstorm
-    if ([200, 201, 202, 210, 211, 212, 221, 230, 231, 232].includes(id)) {
-        iconName = 'thunderstorm';
+        // clear sky
+        if (weather.icon === '01d') {
+            videoName = 'clear-sky-day';
+        }
+        if (weather.icon === '01n') {
+            videoName = 'clear-sky-night';
+        }
+
+        // few clouds
+        if (weather.icon === '02d') {
+            videoName = 'few-clouds-day';
+        }
+        if (weather.icon === '02n') {
+            videoName = 'few-clouds-night';
+        }
+
+        // scattered clouds
+        if (weather.icon === '03d' || weather.icon === '03n') {
+            videoName = 'cloud';
+        }
+
+        // broken clouds
+        if (weather.icon === '04d' || weather.icon === '04n') {
+            videoName = 'clouds';
+        }
+
+        // rain
+        if (weather.icon === '09d' || weather.icon === '09n' || weather.icon === '10d' || weather.icon === '10n') {
+            videoName = 'rain';
+        }
+
+        // thunderstorm
+        if (weather.icon === '11d' || weather.icon === '11n') {
+            videoName = 'thunderstorm';
+        }
+
+        // snow
+        if (weather.icon === '13d' || weather.icon === '13n') {
+            videoName = 'snow';
+        }
+
+        // mist
+        if (weather.icon === '50d' || weather.icon === '50n') {
+            videoName = 'mist';
+        }
+
+        return videoName;
     }
 
-    // drizzle
-    if ([300, 301, 302, 310, 311, 312, 313, 314, 221].includes(id)) {
-        iconName = 'drizzle';
+    if (filetype === 'svg'){
+        let iconName = '';
+
+        if (['01d', '01n', '02d', '02n'].includes(weather.icon)) {
+            if (weather.icon === '01d') {
+                iconName = 'clear-sky-day';
+            }
+    
+            if (weather.icon === '01n') {
+                iconName = 'clear-sky-night';
+            }
+    
+            if (weather.icon === '02d') {
+                iconName = 'few-clouds-day';
+            }
+    
+            if (weather.icon === '02n') {
+                iconName = 'few-clouds-night';
+            }
+        } else {
+            // thunderstorm
+            if ([200, 201, 202, 210, 211, 212, 221, 230, 231, 232].includes(weather.id)) {
+                iconName = 'thunderstorm';
+            }
+
+            // drizzle
+            if ([300, 301, 302, 310, 311, 312, 313, 314, 221].includes(weather.id)) {
+                iconName = 'drizzle';
+            }
+
+            // light-rain
+            if ([500, 501].includes(weather.id)) {
+                iconName = 'light-rain';
+            }
+
+            // heavy-rain
+            if ([502, 503, 504, 520, 521, 522, 531].includes(weather.id)) {
+                iconName = 'light-rain';
+            }
+
+            // snow-rain
+            if ([511, 615, 616, ].includes(weather.id)) {
+                iconName = 'snow-rain';
+            }
+
+            // light-snow
+            if ([600, 612, 620].includes(weather.id)) {
+                iconName = 'light-snow';
+            }
+
+            // snow
+            if ([601, 613, 621].includes(weather.id)) {
+                iconName = 'snow';
+            }
+
+            // heavy-snow
+            if ([602, 611, 622].includes(weather.id)) {
+                iconName = 'heavy-snow';
+            }
+
+            // fog, mist
+            if ([701, 721, 741].includes(weather.id)) {
+                iconName = 'fog';
+            }
+
+            // smoke, dust
+            if ([711, 731, 751, 761, 762].includes(weather.id)) {
+                iconName = 'smoke';
+            }
+
+            // sqalls
+            if ([771].includes(weather.id)) {
+                iconName = 'wind';
+            }
+
+            // tornado
+            if ([781].includes(weather.id)) {
+                iconName = 'tornado';
+            }
+
+            // scattered clouds
+            if (weather.id === 802) {
+                iconName = 'cloud';
+            }
+
+            // broken clouds
+            if ([803, 804].includes(weather.id)) {
+                iconName = 'clouds';
+            }
+        }
+
+        return iconName;
     }
-
-    // light-rain
-    if ([500, 501].includes(id)) {
-        iconName = 'light-rain';
-    }
-
-    // heavy-rain
-    if ([502, 503, 504, 520, 521, 522, 531].includes(id)) {
-        iconName = 'light-rain';
-    }
-
-    // snow-rain
-    if ([511, 615, 616, ].includes(id)) {
-        iconName = 'snow-rain';
-    }
-
-    // light-snow
-    if ([600, 612, 620].includes(id)) {
-        iconName = 'light-snow';
-    }
-
-    // snow
-    if ([601, 613, 621].includes(id)) {
-        iconName = 'snow';
-    }
-
-    // heavy-snow
-    if ([602, 611, 622].includes(id)) {
-        iconName = 'heavy-snow';
-    }
-
-    // fog, mist
-    if ([701, 721, 741].includes(id)) {
-        iconName = 'fog';
-    }
-
-    // smoke, dust
-    if ([711, 731, 751, 761, 762].includes(id)) {
-        iconName = 'smoke';
-    }
-
-    // sqalls
-    if ([771].includes(id)) {
-        iconName = 'wind';
-    }
-
-    // tornado
-    if ([781].includes(id)) {
-        iconName = 'tornado';
-    }
-
-    // clear sky
-    if (id === 800) {
-        iconName = 'clear-sky-day';
-    }
-
-    // few clouds
-    if (id === 801) {
-        iconName = 'few-clouds-day';
-    }
-
-    // scattered clouds
-    if (id === 802) {
-        iconName = 'cloud';
-    }
-
-    // broken clouds
-    if ([803, 804].includes(id)) {
-        iconName = 'clouds';
-    }
-
-    return iconName;
-}
-
-/* -------------------- Convert Icon Name -------------------- */
-
-function setWeatherVideo(icon) {
-    let videoName = '';
-
-    // clear sky
-    if (icon === '01d') {
-        videoName = 'clear-sky-day';
-    }
-    if (icon === '01n') {
-        videoName = 'clear-sky-night';
-    }
-
-    // few clouds
-    if (icon === '02d') {
-        videoName = 'few-clouds-day';
-    }
-    if (icon === '02n') {
-        videoName = 'few-clouds-night';
-    }
-
-    // scattered clouds
-    if (icon === '03d' || icon === '03n') {
-        videoName = 'cloud';
-    }
-
-    // broken clouds
-    if (icon === '04d' || icon === '04n') {
-        videoName = 'clouds';
-    }
-
-    // rain
-    if (icon === '09d' || icon === '09n' || icon === '10d' || icon === '10n') {
-        videoName = 'rain';
-    }
-
-    // thunderstorm
-    if (icon === '11d' || icon === '11n') {
-        videoName = 'thunderstorm';
-    }
-
-    // snow
-    if (icon === '13d' || icon === '13n') {
-        videoName = 'snow';
-    }
-
-    // mist
-    if (icon === '50d' || icon === '50n') {
-        videoName = 'mist';
-    }
-
-    return videoName;
 }
 
 /* -------------------- Convert Wind Direction -------------------- */
