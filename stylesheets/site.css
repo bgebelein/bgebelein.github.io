@@ -852,7 +852,7 @@
     mask-image: url("../../images/masks/dots-round.svg") !important;
   }
   a[class^=btn].btn--pulse,
-button[class^=btn].btn--pulse {
+  button[class^=btn].btn--pulse {
     animation: none !important;
   }
 }
@@ -974,7 +974,7 @@ strong {
 @media not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) and (stroke-color: transparent) {
     header #portrait img,
-header .blob {
+    header .blob {
       mask-image: url("../../images/masks/blob-image.svg") !important;
     }
     ul#project-list li .project-image::after {
@@ -1254,28 +1254,28 @@ input[type=submit] {
 
 @media (prefers-color-scheme: dark) {
   input,
-textarea {
+  textarea {
     background-color: #212121;
     border: 1px solid #313131;
   }
   input[type=checkbox] + label, input[type=radio] + label, input:placeholder-shown,
-textarea[type=checkbox] + label,
-textarea[type=radio] + label,
-textarea:placeholder-shown {
+  textarea[type=checkbox] + label,
+  textarea[type=radio] + label,
+  textarea:placeholder-shown {
     background-color: #212121;
     border: 1px solid #313131;
   }
 }
 @media (prefers-color-scheme: light) {
   input,
-textarea {
+  textarea {
     background-color: #fbfbfb;
     border: 1px solid #ccc;
   }
   input[type=checkbox] + label, input[type=radio] + label, input:placeholder-shown,
-textarea[type=checkbox] + label,
-textarea[type=radio] + label,
-textarea:placeholder-shown {
+  textarea[type=checkbox] + label,
+  textarea[type=radio] + label,
+  textarea:placeholder-shown {
     background-color: #fbfbfb;
     border: 1px solid #ccc;
   }
@@ -2652,7 +2652,17 @@ footer#kontakt #legal nav#footer-nav ul li a + a {
 :root {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  scrollbar-color: #E7324C rgba(0, 0, 0, 0.05);
+  scrollbar-color: #E7324C var(--background-color);
+}
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E7324C;
+  border-radius: 1rem;
 }
 
 body {
@@ -2720,7 +2730,7 @@ img {
 }
 .tags .tag {
   padding: 0.5rem 0.75rem;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--foreground-color-3);
   border: 1px solid var(--text-color);
   border-radius: 0.5rem;
   font-size: 80%;
