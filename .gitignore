@@ -1,9 +1,6 @@
 # macOS Files
 .DS_Store
 
-# macOS Files
-.DS_Store
-
 # git Files
 .keep
 .env
