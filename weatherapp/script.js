@@ -207,10 +207,6 @@ dialogButtons.forEach(button => {
 
         // prevent backgound scrolling
         document.querySelector('body').style.overflow = 'hidden';
-
-        // add background blur
-        document.querySelector('header').style.filter = 'blur(8px)';
-        document.querySelector('main').style.filter = 'blur(8px)';
     });
 });
 
