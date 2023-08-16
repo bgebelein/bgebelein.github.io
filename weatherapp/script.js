@@ -3,25 +3,11 @@ const apiKey = 'ce74a593068c612e5bc8451997f2fb81';
 /* -------------------- Get data from local storage  -------------------- */
 
 let locationArr = [];
-let weatherArr = [];
-let lastUpdate = 0;
 
 if (localStorage.getItem('myWeatherLocationArr')) {
     locationArr = JSON.parse(localStorage.getItem('myWeatherLocationArr'));
 } else {
     localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
-}
-
-if (localStorage.getItem('myWeatherWeatherArr')) {
-    weatherArr = JSON.parse(localStorage.getItem('myWeatherWeatherArr'));
-} else {
-    localStorage.setItem('myWeatherWeatherArr', JSON.stringify(weatherArr));
-}
-
-if (localStorage.getItem('myWeatherLastUpdate')) {
-    lastUpdate = localStorage.getItem('myWeatherLastUpdate');
-} else {
-    localStorage.setItem('myWeatherLastUpdate', lastUpdate);
 }
 
 /* -------------------- Locations Settings Dialog  -------------------- */
@@ -42,17 +28,11 @@ function createLocationList() {
         locationList.appendChild(locationSettingsItem);
 
         // Delete functionality/button
-        locationSettingsItem.querySelector('button').addEventListener('click', function(e){
+        locationSettingsItem.querySelector('button').addEventListener('click', function (e) {
             // Remove from DOM
             e.currentTarget.parentNode.remove();
             // Remove from locationArr
             locationArr.splice(locationArr.indexOf(locationArr[i]));
-            // Remove from weatherArr
-            weatherArr.forEach(weatherItem => function (i) {
-                if (weatherItem.lat === locationArr[i].lat && weatherItem.lon === locationArr[i].lon) {
-                    weatherArr.splice(weatherArr.indexOf(weatherItem), 1);
-                }
-            });
         });
     }
 }
@@ -70,7 +50,7 @@ let dropSrcIndex;
 
 function handleDragStart(e) {
     this.style.opacity = '0.4';
-    
+
     dragSrcEl = e.currentTarget;
     dragSrcLat = e.currentTarget.getAttribute('data-location-lat');
     dragSrcLon = e.currentTarget.getAttribute('data-location-lon');
@@ -109,7 +89,7 @@ function handleDrop(e) {
             dropSrcIndex = i;
         }
     }
-    
+
     if (dragSrcEl != this) {
         dragSrcEl.innerHTML = this.innerHTML;
         dragSrcEl.setAttribute('data-location-lat', this.getAttribute('data-location-lat'));
@@ -126,11 +106,11 @@ function handleDrop(e) {
     let locationItemCopy2 = locationArr[dropSrcIndex];
     console.log(dragSrcIndex);
     console.log(dropSrcIndex);
-    
+
 
     locationArr[dragSrcIndex] = locationItemCopy2;
     locationArr[dropSrcIndex] = locationItemCopy1;
-    
+
     console.log(locationArr);
 
     return false;
@@ -142,7 +122,7 @@ function handleDragEnd(e) {
 }
 
 let items = document.querySelectorAll('#location-list li[draggable=true]');
-items.forEach(function(item) {
+items.forEach(function (item) {
     item.addEventListener('dragstart', handleDragStart, false);
     item.addEventListener('dragenter', handleDragEnter, false);
     item.addEventListener('dragover', handleDragOver, false);
@@ -150,6 +130,45 @@ items.forEach(function(item) {
     item.addEventListener('drop', handleDrop, false);
     item.addEventListener('dragend', handleDragEnd, false);
 });
+
+/* -------------------- Add current location  -------------------- */
+
+getGeoLocation();
+
+function getGeoLocation() {
+    if (!navigator.geolocation) {
+        triggerToast('Error', 'Geolocation not supported', 'error');
+        // Get weatherdata when locations were added
+        locationArr.length > 0 ? getData(locationArr) : null;
+    } else {
+        console.log('Locating…');
+        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
+    }
+}
+
+function geolocationError() {
+    triggerToast('Error', 'Geolocation not found', 'error');
+    // Get weatherdata when locations were added
+    locationArr.length > 0 ? getData(locationArr) : null;
+}
+
+function geolocationSuccess(position) {
+    fetch('https://api.openweathermap.org/geo/1.0/reverse?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&limit=1&appid=' + apiKey)
+    .then((response) => response.json())
+    .then((locationData) => {
+        // Get weather data for geolocation when location is not saved
+        if (!JSON.stringify(locationArr).includes(locationData[0].lat) && !JSON.stringify(locationArr).includes(locationData[0].lon)) {
+            locationData[0].name = `📍 ${locationData[0].name}`;
+            getData(locationData);
+        }
+
+        // Get weatherdata when locations were added
+        setTimeout(function () {
+            locationArr.length > 0 ? getData(locationArr) : null;
+        }, 500);
+        
+    })
+}
 
 /* -------------------- Search & Add Location Dialog  -------------------- */
 
@@ -172,14 +191,14 @@ searchForm.addEventListener('submit', function (e) {
                 triggerToast('Error', 'Location not found.', 'error');
             } else {
                 for (let i = 0; i < locationData.length; i++) {
-                    // Creation of result list
-                    locationSearchItemClone = locationSearchItem.cloneNode(true);
+                    // Create list of results
+                    let locationSearchItemClone = locationSearchItem.cloneNode(true);
                     locationSearchItemClone.setAttribute('data-location', locationData[i].name);
                     locationSearchItemClone.querySelector('dt').innerText = `${locationData[i].name}`;
                     locationSearchItemClone.querySelector('dd').innerText = locationData[i].state ? `(${locationData[i].country} | ${locationData[i].state})` : `(${locationData[i].country})`;
                     locationSearchResults.appendChild(locationSearchItemClone);
 
-                    // Adding locations
+                    // Add location
                     locationSearchItemClone.addEventListener('click', function () {
                         if (!locationArr.includes(locationData[i])) {
                             locationArr.push(locationData[i]);
@@ -211,28 +230,15 @@ dialogButtons.forEach(button => {
 });
 
 function closeDialog(e) {
-    // Close dialog + enable scrolling + remove blur
+    // Close dialog + enable scrolling
     dialogs.forEach(dialog => dialog.classList.remove('open'))
     document.querySelector('body').style.overflow = 'auto';
-    document.querySelector('header').removeAttribute('style');
-    document.querySelector('main').removeAttribute('style');
 
     // Save array and rerender weather app only when things changed
-    if (locationArr.length !== JSON.parse(localStorage.getItem('myWeatherLocationArr')).length) {
+    if (JSON.stringify(locationArr) !== localStorage.getItem('myWeatherLocationArr')) {
         localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
         document.querySelector('main').innerHTML = '';
-        getData(locationArr, 0);
-    } else {
-        for (let i = 0; i < locationArr.length; i++) {
-            let locationArrItem = JSON.stringify(locationArr[i]);
-            let localStorageArrItem = JSON.stringify(JSON.parse(localStorage.getItem('myWeatherLocationArr'))[i])
-
-            if (locationArrItem !== localStorageArrItem) {
-                localStorage.setItem('myWeatherLocationArr', JSON.stringify(locationArr));
-                document.querySelector('main').innerHTML = '';
-                getData(locationArr, 0);
-            }
-        }
+        getGeoLocation();
     }
 }
 
@@ -240,54 +246,28 @@ function closeDialog(e) {
 
 let weatherLocationName;
 
-function getData(locationArr, counter) {
-    // Set location name for headline
-    weatherLocationName = locationArr[counter] ? locationArr[counter].name : null;
-    console.log(weatherLocationName);
-
-    // Get weather data
+function getData(locationArr, counter = 0) {
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + locationArr[counter].lat + '&lon=' + locationArr[counter].lon + '&appid=' + apiKey + '&units=metric&exclude=minutely')
     .then((response) => response.json())
     .then((weatherData) => {
+        // Set location name for headline
+        weatherLocationName = locationArr[counter].name;
+
+        console.log(weatherLocationName);
         console.log(weatherData);
-        let dataAdded = false;
-
-        // Update lastUpdate value
-        lastUpdate = weatherData.current.dt;
-        localStorage.setItem('myWeatherLastUpdate', lastUpdate);
-
-        // Add weather data if no data saved
-        if (weatherArr.length === 0) {
-            weatherArr.push(weatherData);
-            dataAdded = true;
-        } else {
-            // Replace weather data if data for this location already exist
-            for (let i = 0; i < weatherArr.length; i++) {
-                if (weatherArr[i].lat === weatherData.lat && weatherArr[i].lon === weatherData.lon) {
-                    weatherArr[i] = weatherData;
-                    dataAdded = true;
-                }
-            }
-        }
-
-        if (dataAdded === false) {
-            weatherArr.push(weatherData);
-            dataAdded = true;
-        }
-
-        localStorage.setItem('myWeatherWeatherArr', JSON.stringify(weatherArr));
 
         // Set data in the app
         setWeatherData(weatherData);
-        counter++;
 
-        if (locationArr.length > counter) {
+        // Get data when there are more locations
+        if (counter < locationArr.length - 1) {
+            counter++;
             getData(locationArr, counter);
+        } else {
+            counter = 0;
         }
     });
 }
-
-getData(locationArr, 0);
 
 /* -------------------- Enliven template with data  -------------------- */
 
@@ -313,9 +293,16 @@ function setWeatherData(weatherData) {
     currentTemperature.innerText = Math.round(weatherData.current.temp);
     currentTemperature.parentNode.setAttribute('onclick', 'triggerToast("Now", "' + weatherData.current.weather[0].description + ' | ' + Math.round(weatherData.current.temp) + '°")');
 
+    // Current Time
+    let currentDayValue = getDay(weatherData.current.dt, weatherData.timezone_offset);
+    let currentDateValue = getDate(weatherData.current.dt, weatherData.timezone_offset);
+    let currentTimeValue = getHoursAndMinutes(weatherData.current.dt, weatherData.timezone_offset);
+    const currentTimeContainer = weatherTemplateClone.content.querySelector('.current-time');
+    currentTimeContainer.innerText = `${currentDayValue}, ${currentDateValue} - ${currentTimeValue}`;
+
     // Sun / Moon container
     const sunMoonContainer = weatherTemplateClone.content.querySelector('.sun-moon');
-    sunMoonContainer.addEventListener('click', function(e){
+    sunMoonContainer.addEventListener('click', function (e) {
         e.currentTarget.classList.toggle('flipped');
     });
 
@@ -456,7 +443,7 @@ function setWeatherData(weatherData) {
         // POP
         const dailyPop = dailyWeatherItemClone.querySelector('.daily-pop');
         dailyPop.innerText = `${Math.round(weatherData.daily[i].pop * 100)} %`;
-        
+
         // Wind
         const dailyWind = dailyWeatherItemClone.querySelector('.daily-wind');
         dailyWind.innerText = `${Math.round(weatherData.daily[i].wind_speed * 3.6)} km/h`;
@@ -572,7 +559,7 @@ function mapPercentageValue(min, max, value) {
 /* -------------------- Convert Icon Name -------------------- */
 
 function setWeatherMedia(weather, filetype) {
-    if (filetype === 'mp4'){
+    if (filetype === 'mp4') {
         let videoName = '';
 
         // clear sky
@@ -624,22 +611,22 @@ function setWeatherMedia(weather, filetype) {
         return videoName;
     }
 
-    if (filetype === 'svg'){
+    if (filetype === 'svg') {
         let iconName = '';
 
         if (['01d', '01n', '02d', '02n'].includes(weather.icon)) {
             if (weather.icon === '01d') {
                 iconName = 'clear-sky-day';
             }
-    
+
             if (weather.icon === '01n') {
                 iconName = 'clear-sky-night';
             }
-    
+
             if (weather.icon === '02d') {
                 iconName = 'few-clouds-day';
             }
-    
+
             if (weather.icon === '02n') {
                 iconName = 'few-clouds-night';
             }
@@ -665,7 +652,7 @@ function setWeatherMedia(weather, filetype) {
             }
 
             // snow-rain
-            if ([511, 615, 616, ].includes(weather.id)) {
+            if ([511, 615, 616,].includes(weather.id)) {
                 iconName = 'snow-rain';
             }
 
