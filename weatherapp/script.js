@@ -156,17 +156,21 @@ function geolocationSuccess(position) {
     fetch('https://api.openweathermap.org/geo/1.0/reverse?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&limit=1&appid=' + apiKey)
     .then((response) => response.json())
     .then((locationData) => {
-        // Get weather data for geolocation when location is not saved
-        if (!JSON.stringify(locationArr).includes(locationData[0].lat) && !JSON.stringify(locationArr).includes(locationData[0].lon)) {
-            locationData[0].name = `📍 ${locationData[0].name}`;
-            getData(locationData);
-        }
+        if (locationData.cod) {
+            // If API sends an Error
+            triggerToast('Error', locationData.message, 'error');
+        } else {
+            // Get weather data for geolocation when location is not saved
+            if (!JSON.stringify(locationArr).includes(locationData[0].lat) && !JSON.stringify(locationArr).includes(locationData[0].lon)) {
+                locationData[0].name = `📍 ${locationData[0].name}`;
+                getData(locationData);
+            }
 
-        // Get weatherdata when locations were added
-        setTimeout(function () {
-            locationArr.length > 0 ? getData(locationArr) : null;
-        }, 500);
-        
+            // Get weatherdata when locations were added
+            setTimeout(function () {
+                locationArr.length > 0 ? getData(locationArr) : null;
+            }, 500);
+        }
     })
 }
 
@@ -185,29 +189,36 @@ searchForm.addEventListener('submit', function (e) {
         .then((locationData) => {
             console.log('Searchresults:');
             console.log(locationData);
-            locationSearchResults.innerHTML = '';
 
-            if (locationData.length === 0) {
-                triggerToast('Error', 'Location not found.', 'error');
+            if (locationData.cod) {
+                // If API sends an Error
+                triggerToast('Error', locationData.message, 'error');
             } else {
-                for (let i = 0; i < locationData.length; i++) {
-                    // Create list of results
-                    let locationSearchItemClone = locationSearchItem.cloneNode(true);
-                    locationSearchItemClone.setAttribute('data-location', locationData[i].name);
-                    locationSearchItemClone.querySelector('dt').innerText = `${locationData[i].name}`;
-                    locationSearchItemClone.querySelector('dd').innerText = locationData[i].state ? `(${locationData[i].country} | ${locationData[i].state})` : `(${locationData[i].country})`;
-                    locationSearchResults.appendChild(locationSearchItemClone);
+                // If API sends results
+                locationSearchResults.innerHTML = '';
 
-                    // Add location
-                    locationSearchItemClone.addEventListener('click', function () {
-                        if (!locationArr.includes(locationData[i])) {
-                            locationArr.push(locationData[i]);
-                            createLocationList();
-                            triggerToast('Info', 'Location added.', 'info');
-                        } else {
-                            triggerToast('Error', 'Location already exists.', 'error');
-                        }
-                    });
+                if (locationData.length === 0) {
+                    triggerToast('Error', 'Location not found.', 'error');
+                } else {
+                    for (let i = 0; i < locationData.length; i++) {
+                        // Create list of results
+                        let locationSearchItemClone = locationSearchItem.cloneNode(true);
+                        locationSearchItemClone.setAttribute('data-location', locationData[i].name);
+                        locationSearchItemClone.querySelector('dt').innerText = `${locationData[i].name}`;
+                        locationSearchItemClone.querySelector('dd').innerText = locationData[i].state ? `(${locationData[i].country} | ${locationData[i].state})` : `(${locationData[i].country})`;
+                        locationSearchResults.appendChild(locationSearchItemClone);
+
+                        // Add location
+                        locationSearchItemClone.addEventListener('click', function () {
+                            if (!locationArr.includes(locationData[i])) {
+                                locationArr.push(locationData[i]);
+                                createLocationList();
+                                triggerToast('Info', 'Location added.', 'info');
+                            } else {
+                                triggerToast('Error', 'Location already exists.', 'error');
+                            }
+                        });
+                    }
                 }
             }
         })
@@ -250,21 +261,27 @@ function getData(locationArr, counter = 0) {
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + locationArr[counter].lat + '&lon=' + locationArr[counter].lon + '&appid=' + apiKey + '&units=metric&exclude=minutely')
     .then((response) => response.json())
     .then((weatherData) => {
-        // Set location name for headline
-        weatherLocationName = locationArr[counter].name;
 
-        console.log(weatherLocationName);
-        console.log(weatherData);
-
-        // Set data in the app
-        setWeatherData(weatherData);
-
-        // Get data when there are more locations
-        if (counter < locationArr.length - 1) {
-            counter++;
-            getData(locationArr, counter);
+        if (weatherData.cod) {
+            // If API sends an Error
+            triggerToast('Error', weatherData.message, 'error');
         } else {
-            counter = 0;
+            // Set location name for headline
+            weatherLocationName = locationArr[counter].name;
+
+            console.log(weatherLocationName);
+            console.log(weatherData);
+
+            // Set data in the app
+            setWeatherData(weatherData);
+
+            // Get data when there are more locations
+            if (counter < locationArr.length - 1) {
+                counter++;
+                getData(locationArr, counter);
+            } else {
+                counter = 0;
+            }
         }
     });
 }

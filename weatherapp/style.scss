@@ -14,13 +14,14 @@ $blue: #3CABF8;
     background-color: #05051A;
     background-attachment: fixed;
     background-size: contain;
-    --yellow: $yellow;
-    --red: $red;
-    --blue: $blue;
+    --yellow: #FFCC00;
+    --red: #E7324C;
+    --blue: #3CABF8;
     --wind-direction: 0;
     -ms-overflow-style: none;
     scrollbar-width: none;
     color: #fff;
+    scroll-behavior: smooth;
     
     &::-webkit-scrollbar {
         display: none;
@@ -168,7 +169,7 @@ dl{
     position: fixed;
     top: 0;
     z-index: 999999;
-    padding: 0 .75rem;
+    padding: 0 1rem;
     transition: left .3s ease-in-out;
 
     &.open{
@@ -216,6 +217,16 @@ form{
 
         &:invalid{
             border-bottom: 2px solid var(--red);
+        }
+
+        &::placeholder{
+            color: #fff;
+            opacity: .4;
+        }
+
+        &[type="search"]{
+            appearance: textfield;
+            -webkit-appearance: textfield;
         }
     }
 
@@ -269,8 +280,9 @@ main {
     display: flex;
     align-items: flex-start;
     overflow-x: scroll;
-    scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    scroll-snap-align: center;
     -ms-overflow-style: none;
     scrollbar-width: none;
     margin-top: -6rem;
@@ -297,6 +309,12 @@ main {
         header{
             padding: 0;
             margin-bottom: 4rem;
+            flex-direction: column;
+            gap: .5rem;
+
+            .current-time{
+                opacity: .8;
+            }
         }
 
         section {
@@ -417,11 +435,6 @@ footer {
             font-size: 80%;
             font-weight: 400;
         }
-    }
-
-    .current-time{
-        opacity: .8;
-        font-weight: 300;
     }
 
     .current-weather-data {

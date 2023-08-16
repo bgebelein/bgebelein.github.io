@@ -61,7 +61,7 @@
             <h2>Add Location</h2>
         </header>
         <form id="search-form">
-            <input id="search" type="text" minlength="2" />
+            <input id="search" type="search" minlength="2" placeholder="Search…" />
             <button type="submit"><img src="images/icons/search.svg" height="24" width="24" alt="Search icon" /></button>
         </form>
         <ul id="location-search-reults">
@@ -121,6 +121,7 @@
         <article>
             <header>
                 <h2 class="weather-location"></h2>
+                <p><small class="current-time"></small></p>
             </header>
 
             <!-- CURRENT WEATHER SECTION -->
@@ -133,7 +134,6 @@
                 <div class="current-temperature">
                     <img class="current-weather-icon" alt="Current temperature icon" />
                     <h2 class="current-temperature-value"></h2>
-                    <p class="current-time"></p>
                 </div>
 
                 <div class="current-weather-data">
