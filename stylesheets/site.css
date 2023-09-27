@@ -1139,6 +1139,7 @@ input, textarea {
   color: var(--text-color);
   margin-bottom: 1.5rem;
   border-radius: 0;
+  caret-color: #E7324C;
 }
 input::placeholder, textarea::placeholder {
   color: var(--text-color);
@@ -1225,7 +1226,7 @@ input[type=radio]:checked + label::after {
 .input-icon--valid {
   display: none;
   position: absolute;
-  right: 0.5rem;
+  right: 1rem;
   bottom: 2rem;
   transform: translateY(-50%);
 }
@@ -1250,6 +1251,7 @@ input[type=submit] {
   opacity: 0.3;
   cursor: not-allowed;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -2685,7 +2687,7 @@ main::before {
   mask-size: cover;
   z-index: -3;
 }
-main article {
+main article, main section {
   padding: clamp(3rem, 5vw, 5rem) 0;
   opacity: 0;
   transition: opacity 1.5s;
@@ -2728,7 +2730,6 @@ img {
 .tags .tag {
   padding: 0.5rem 0.75rem;
   background-color: var(--foreground-color-3);
-  border: 1px solid var(--text-color);
   border-radius: 0.5rem;
   font-size: 80%;
   line-height: 1;
